@@ -3,9 +3,11 @@
 L'idée est simple, nous devons implementé le processeur pédagogique LC-3 dans le langage `Eclat` afin de tester des approches de deux styles de programmation différentes. D'un côté il y a le style impératif et de l'autre le style fonctionnel. 
 
 ## Choix d'implémentation de la mémoire 
-J'ai choisi de faire une mémoire séparé du programme principal pour des choix de lisibilité au niveau des matchs. Faire trop de match rendrais le code illisible. La mémoire est simplement le type value. 
+J'ai choisi de faire une mémoire séparé du programme principal pour des choix de lisibilité au niveau des matchs. Faire trop de match rendrais le code illisible. La mémoire est simplement de type value. 
 
 Pour ce qui est des opérations sur les registres, des directions restent à explorer. Pour le moment, je ne fais d'opération arithmétique uniquement sur les constante contenu dans les registres (je ne prends pas en compte l'adresse et les autres types de valeur). Dans le LC-3 classique, les opérations se ferait peu importe ce que le registre contient (aucune disinction faite). 
+
+Contrairement à ce qui est indiquer dans le polycopié, les opérations qui de chargement et de moficiation de la mémoire n'utilise plus `PC` car cette variable est réservée pour la variable `prog` (qui n'est pas dans la mémoire, il faut faire la distinction).
 
 ## Imperatif style vs fonctionnel
 - `Impératif` : Accès sur le partage de variable en mémoire sans (jamais) avoir le besoin de copier. Cela permet, pour de gros programme, de ne pas prendre toute la place mémoire. 
