@@ -1,0 +1,27 @@
+set(memory,  0, Instr(AND_IMM(0, 0, 0)));
+set(memory,  1, Instr(AND_IMM(2, 2, 0)));
+set(memory,  2, Instr(ADD_IMM(0, 0, 30)));
+set(memory,  3, Instr(NOT(1,0)));
+set(memory,  4, Instr(AND_IMM(3, 2, 0)));
+set(memory,  5, Instr(NOP()));
+set(memory,  6, Instr(LEA(5, 17)));
+(*Attention au position, au moment de la 7ème instruction, `pc` vaut 8 !*)
+set(memory,  7, Instr(LD(5, 23)));
+set(memory,  8, Instr(LD(5, 23)));
+set(memory,  9, Instr(LD(5, 23)));
+set(memory, 10, Instr(LD(5, 23)));
+set(memory, 11, Instr(LD(5, 23)));
+set(memory, 12, Instr(LD(5, 23)));
+set(memory, 13, Instr(ST(1, 10)));
+set(memory, 14, Instr(AND_IMM(7, 7, 0)));
+set(memory, 15, Instr(JMP(0)));
+(*cela saute les instructions donc je mets qlq chose d'arbitrairement grand mais il faut le garder pour le test*)
+set(memory, 150, Instr(BR(0, 1, 0, 9)));
+
+(*SEGMENT DONNEE*)
+set(memory, 30, Char('H'));
+set(memory, 31, Char('e'));
+set(memory, 32, Char('l'));
+set(memory, 33, Char('l'));
+set(memory, 34, Char('o'));
+set(memory, 35, Char('!'))

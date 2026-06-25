@@ -4,13 +4,14 @@
     `short`  : Type pour représenter un short en Eclat
     `imm`    : Type pour représenter une variable immédiate plutôt qu'un numéro de registres
 *)
-type flag = int<1>;;
-type three_b = int<4>;;
-type imm = int<5>;;
-type pc_offset_6 = int<6>;;
-type pc_offset_9 = int<9>;;
-type pc_offset_11 = int<11>;;
-type short = int<16>;;
+type flag           = int<1>;;
+type three_b        = int<4>;;
+type imm            = int<5>;;
+type pc_offset_6    = int<6>;;
+type pc_offset_8    = int<8>;;
+type pc_offset_9    = int<9>;;
+type pc_offset_11   = int<11>;;
+type short          = int<16>;;
 
 (*
     Toutes les instructions du programme (c.f page 73 du polycopié)
@@ -27,21 +28,30 @@ type instruction = NOT of three_b * three_b
     | LD of three_b * pc_offset_9
     | ST of three_b * pc_offset_9
     
-    (*
     | LDR of three_b * three_b * pc_offset_6
     | STR of three_b * three_b * pc_offset_6
     
+    (*
     | LDI of three_b * pc_offset_9
     | STI of three_b * pc_offset_9
     *)
+    
     | BR of flag * flag * flag * pc_offset_9
 
     | NOP of unit
-    (*
+
     | JMP of three_b
 
     | RET of unit 
+
+    (*
+    | JSR of pc_offset_11
+
+    | JSRR of three_b
+
+    | TRAP of pc_offset_8
     *)
+
 ;;
 
 (*
@@ -57,6 +67,7 @@ type value = Bool of bool
 let nzp : flag array<3> = create<3>();;
 
 let pc : short array<1> = create<1>();;
+
 let ir : value array<1> = create<1>();;
 (*
     Les registres sont des value car elles peuvent à la fois contenir des char, des addresses et d'autre chose défini par le type `value` 
@@ -70,8 +81,12 @@ let memory : value array<3000> = create<3000>();;
 let get_reg_const cur_reg = 
     let regis = get(registers, cur_reg) in
     match regis with 
-    | Const(c) -> c 
-    (* Pour ce qui est du assert, nous pouvons avoir une approche différente comme juste renvoyer 0 *)
+    | Const c -> c 
+    (* 
+        Pour ce qui est du assert, nous pouvons avoir une approche différente comme juste renvoyer 0 
+        Nous pouvons aussi transformer certaines constantes comme les char ou booléans afin de pouvoir utiliser leur 
+        représentation entière 
+    *)
     | _ -> (assert false ; 0)
 ;;
 
@@ -109,57 +124,87 @@ let set_p val =
 
 
 (*---------------AFFICHAGE/DEBUG----------------*)
+let print_instruction (instr : instruction) = 
+    match instr with 
+    | NOT       _ -> print_string("NOT")
+    | ADD       _ -> print_string("ADD")
+    | AND       _ -> print_string("AND")
+
+    | ADD_IMM   _ -> print_string("ADD_IMM")
+    | AND_IMM   _ -> print_string("AND_IMM")
+    
+    | LEA       _ -> print_string("LEA")
+    
+    | LD        _ -> print_string("LD")
+    | ST        _ -> print_string("ST")
+    
+    | LDR       _ -> print_string("LDR")
+    | STR       _ -> print_string("STR")
+    
+    (*
+    | LDI       _ -> print_string("LDI")
+    | STI       _ -> print_string("STI")
+    *)
+    | BR        _ -> print_string("BR")
+
+    | NOP       _ -> print_string("NOP")
+
+    | JMP       _ -> print_string("JMP")
+
+    | RET       _ -> print_string("RET")
+
 let print_reg cur_reg = 
-    print_string("[reg ");
-    print_int(cur_reg);
-    print_string "] ";
+    print_string    ("[reg ");
+    print_int       (cur_reg);
+    print_string    ("] ");
     let res_reg = get(registers, cur_reg) in 
     match res_reg with 
-    | Bool b -> print_string("voici le booléan : ") ; Bool.print(b)
-    | Addr adr -> print_string("voici l'adresse : ") ; print_int(adr)
-    | Char c -> print_string("voici le caractère : ") ; print_char(c)
-    | Const s -> print_string("voici le short : ") ; print_int(s)
-    | Instr x -> print_string("c'est une instruction...")
-    | _ -> print_string("case du tableau vide ?")
+    | Bool b    -> print_string         ("voici le booléan : ") ; Bool.print(b)
+    | Addr adr  -> print_string         ("voici l'adresse : ") ; print_int(adr)
+    | Char c    -> print_string         ("voici le caractère : ") ; print_char(c)
+    | Const s   -> print_string         ("voici le short : ") ; print_int(s)
+    | Instr x   -> print_instruction    (x)
+    | _         -> print_string         ("case du tableau vide ?")
 ;;
 
 let print_mem cur_posi = 
-    print_string("[reg ");
-    print_int(cur_posi);
-    print_string "] ";
+    print_string    ("[mem ");
+    print_int       (cur_posi);
+    print_string    ("] ");
     let regis = get(memory, cur_posi) in
     match regis with 
-    | Bool b -> print_string("voici le booléan : ") ; Bool.print(b)
-    | Addr adr -> print_string("voici l'adresse : ") ; print_int(adr)
-    | Char c -> print_string("voici le caractère : ") ; print_char(c)
-    | Const s -> print_string("voici le short : ") ; print_int(s)
-    | _ -> print_string("case du tableau vide ?")
+    | Bool b    -> print_string         ("voici le booléan : ") ; Bool.print(b)
+    | Addr adr  -> print_string         ("voici l'adresse : ") ; print_int(adr)
+    | Char c    -> print_string         ("voici le caractère : ") ; print_char(c)
+    | Const s   -> print_string         ("voici le short : ") ; print_int(s)
+    | Instr x   -> print_instruction    (x)
+    | _         -> print_string         ("case du tableau vide ?")
 ;;
 
 let debug cur_reg = 
-    print_string("DEBUG-----------------------------------------------------------------");
-    print_newline();
-    print_reg(cur_reg);
-    print_newline();
-    print_string("----------------------------------------------------------------------");
-    print_newline();
-    print_newline()
+    print_string    ("DEBUG-----------------------------------------------------------------");
+    print_newline   ();
+    print_reg       (cur_reg);
+    print_newline   ();
+    print_string    ("----------------------------------------------------------------------");
+    print_newline   ();
+    print_newline   ()
 ;;
 
 let debug_nzp () =  
-    print_string("NZP-------------------------------------------------------------------");
-    print_newline();
-    print_string("[");
-    print_int(int_resize<<32>>(get_n()));
-    print_string("; ");
-    print_int(int_resize<<32>>(get_z()));
-    print_string("; ");
-    print_int(int_resize<<32>>(get_p()));
-    print_string("]");
-    print_newline();
-    print_string("----------------------------------------------------------------------");
-    print_newline();
-    print_newline()
+    print_string    ("NZP-------------------------------------------------------------------");
+    print_newline   ();
+    print_string    ("[");
+    print_int       (int_resize<<32>>(get_n()));
+    print_string    ("; ");
+    print_int       (int_resize<<32>>(get_z()));
+    print_string    ("; ");
+    print_int       (int_resize<<32>>(get_p()));
+    print_string    ("]");
+    print_newline   ();
+    print_string    ("----------------------------------------------------------------------");
+    print_newline   ();
+    print_newline   ()
 ;;
 
 
@@ -172,23 +217,11 @@ let init_env () =
     set_r(ir, Instr(NOP()));
 
     set(memory,  0, Instr(AND_IMM(0, 0, 0)));
-    set(memory,  1, Instr(AND_IMM(2, 2, 0)));
-    set(memory,  2, Instr(ADD_IMM(0, 0, 24)));
-    set(memory,  3, Instr(NOT(1,0)));
-    set(memory,  4, Instr(AND_IMM(3, 2, 0)));
-    set(memory,  5, Instr(NOP()));
-    set(memory,  6, Instr(LEA(5, 17)));
-    (*Attention au position, au moment de la 7ème instruction, `pc` vaut 8 !*)
-    set(memory,  7, Instr(LD(5, 23)));
-    set(memory,  8, Instr(LD(5, 23)));
-    set(memory,  9, Instr(LD(5, 23)));
-    set(memory, 10, Instr(LD(5, 23)));
-    set(memory, 11, Instr(LD(5, 23)));
-    set(memory, 12, Instr(LD(5, 23)));
-    set(memory, 13, Instr(ST(1, 10)));
-    set(memory, 14, Instr(BR(0, 1, 0, 1)));
+    set(memory,  1, Instr(ADD_IMM(0, 0, 29)));
+    set(memory,  2, Instr(STR(0, 0, 2)));
+    (*mettre à l'adresse reg[0] + 2 = 32 ce qu'il y a dans le registre 0 donc mem[32] = 29*)
 
-    (*SEGMENT DONNEE*)
+
     set(memory, 30, Char('H'));
     set(memory, 31, Char('e'));
     set(memory, 32, Char('l'));
@@ -358,10 +391,21 @@ let rec decode () : unit =
                 set(memory, pc_tmp + int_resize<<16>>(offset), get(registers, src_reg));
 
                 (*DEBUG*)
-                print_mem(offset);
-                print_newline();
-                print_reg(src_reg);
-                print_newline();
+                print_mem       (pc_tmp + int_resize<<16>>(offset));
+                print_newline   ();
+                print_reg       (src_reg);
+                print_newline   ();
+
+                decode()
+
+            | LDR(dst_reg, sr1, offset) -> 
+                set(registers, dst_reg, get(memory, get_reg_const(sr1) + int_resize<<16>>(offset)));
+
+                debug(dst_reg);
+                decode()
+
+            | STR(src_reg, sr1, offset) -> 
+                set(memory, get_reg_const(sr1) + int_resize<<16>>(offset), get(registers, src_reg));
 
                 decode()
 
@@ -374,17 +418,28 @@ let rec decode () : unit =
                     Ici j'utilise le getter de la bibliothèque standard d'Eclat sauf qu'il comprend 
                     les entiers en format Big_endian. Mais comme nous sommes sur 1 bits, 
                     il n'y a aucun problème.
+                    À partir du moment ou il y a un flag vrai, nous sautons sans regarder le reste.
                 *)
-                if(get_bit(get_n(), 0) && get_bit(n, 0)) 
-                    then print_string("youhou1");
-                if(get_bit(get_z(), 0) && get_bit(z, 0)) 
-                    then print_string("youhou2");
-                if(get_bit(get_p(), 0) && get_bit(p, 0)) 
-                    then print_string("youhou3");
-                
+                let _ = 
+                (
+                    if(get_bit(get_n(), 0) && get_bit(n, 0)) 
+                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                    else if(get_bit(get_z(), 0) && get_bit(z, 0)) 
+                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                    else if(get_bit(get_p(), 0) && get_bit(p, 0)) 
+                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                ) in decode()
+            
+            | JMP src_reg -> 
+                set_r(pc, get_reg_const(src_reg));
 
                 decode()
-            )
+
+            | RET() -> 
+                set_r(pc, get_reg_const(7));
+
+                decode() 
+            ) 
 
         | Char c -> 
             print_string("[") ; print_int(pc_tmp) ; print_string("] : "); print_char(c);
@@ -415,30 +470,30 @@ let rec decode () : unit =
 ;;
 
 
-let chrono () = 
+let chrono() = 
     reg (fun c -> c + 1) init 0
 ;;
 
 
-let main () = 
-    let compteur = chrono () in
+let main() = 
+    let compteur = chrono() in
     
     let (x, rdy) = 
         exec 
-            (init_env() ; decode ())
-        default () 
+            (init_env() ; decode())
+        default() 
     in
     if(rdy)
         then 
             (   
-                print_string "+-------------+";
-                print_newline() ; 
-                print_string "| compteur=" ; 
-                print_int compteur ;
-                print_string " |" ;
-                print_newline() ;  
-                print_string "+-------------+";
-                print_newline() ; 
-                print_newline()
+                print_string    ("+-------------+");
+                print_newline   () ; 
+                print_string    ("| compteur="); 
+                print_int       (compteur);
+                print_string    (" |");
+                print_newline   ();  
+                print_string    ("+-------------+");
+                print_newline   (); 
+                print_newline   ()
             )
 ;;
