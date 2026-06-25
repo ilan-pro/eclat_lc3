@@ -9,6 +9,8 @@ Pour ce qui est des opérations sur les registres, des directions restent à exp
 
 Contrairement à ce qui est indiquer dans le polycopié, les opérations qui de chargement et de moficiation de la mémoire n'utilise plus `PC` car cette variable est réservée pour la variable `prog` (qui n'est pas dans la mémoire, il faut faire la distinction).
 
+ATTENTION : certaines instructions conservent cet incrément avec `PC`. Par exemple.
+
 ## Imperatif style vs fonctionnel
 - `Impératif` : Accès sur le partage de variable en mémoire sans (jamais) avoir le besoin de copier. Cela permet, pour de gros programme, de ne pas prendre toute la place mémoire. 
 - `Fonctionnel` : Accès sur la partage de référence. Consommation mémoire bien plus importante mais plus performant pour ce qui est du parallélisme et autre notion.
