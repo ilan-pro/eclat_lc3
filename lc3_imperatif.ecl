@@ -171,30 +171,30 @@ let init_env () =
     set_r(pc, 0);
     set_r(ir, Instr(NOP()));
 
-    set(memory,  0, Instr(AND_IMM(0,0,0)));
-    set(memory,  1, Instr(AND_IMM(2,2,0)));
-    set(memory,  2, Instr(ADD_IMM(0,0,24)));
+    set(memory,  0, Instr(AND_IMM(0, 0, 0)));
+    set(memory,  1, Instr(AND_IMM(2, 2, 0)));
+    set(memory,  2, Instr(ADD_IMM(0, 0, 24)));
     set(memory,  3, Instr(NOT(1,0)));
-    set(memory,  4, Instr(AND_IMM(3,2,0)));
+    set(memory,  4, Instr(AND_IMM(3, 2, 0)));
     set(memory,  5, Instr(NOP()));
-    set(memory,  6, Instr(LEA(5, 20)));
+    set(memory,  6, Instr(LEA(5, 17)));
     (*Attention au position, au moment de la 7ème instruction, `pc` vaut 8 !*)
-    set(memory,  7, Instr(LD(5, 93)));
-    set(memory,  8, Instr(LD(5, 93)));
-    set(memory,  9, Instr(LD(5, 93)));
-    set(memory, 10, Instr(LD(5, 93)));
-    set(memory, 11, Instr(LD(5, 93)));
-    set(memory, 12, Instr(LD(5, 93)));
-    set(memory, 13, Instr(ST(1, 93)));
+    set(memory,  7, Instr(LD(5, 23)));
+    set(memory,  8, Instr(LD(5, 23)));
+    set(memory,  9, Instr(LD(5, 23)));
+    set(memory, 10, Instr(LD(5, 23)));
+    set(memory, 11, Instr(LD(5, 23)));
+    set(memory, 12, Instr(LD(5, 23)));
+    set(memory, 13, Instr(ST(1, 10)));
     set(memory, 14, Instr(BR(0, 1, 0, 1)));
 
     (*SEGMENT DONNEE*)
-    set(memory, 100, Char('H'));
-    set(memory, 101, Char('e'));
-    set(memory, 102, Char('l'));
-    set(memory, 103, Char('l'));
-    set(memory, 104, Char('o'));
-    set(memory, 105, Char('!'))
+    set(memory, 30, Char('H'));
+    set(memory, 31, Char('e'));
+    set(memory, 32, Char('l'));
+    set(memory, 33, Char('l'));
+    set(memory, 34, Char('o'));
+    set(memory, 35, Char('!'))
 ;;
  
 
@@ -343,7 +343,7 @@ let rec decode () : unit =
                     ATTENTION : je prends une copie de PC avant INCREMENT, donc pas besoin de décrementer
                     c.f notion rapport-2
                 *)
-                set(registers, dst_reg, Addr(int_resize<<16>>(offset)));
+                set(registers, dst_reg, Addr(pc_tmp + int_resize<<16>>(offset)));
 
                 debug(dst_reg);
                 decode()
@@ -355,7 +355,7 @@ let rec decode () : unit =
                 decode()
 
             | ST(src_reg, offset) ->    
-                set(memory, int_resize<<16>>(offset), get(registers, src_reg));
+                set(memory, pc_tmp + int_resize<<16>>(offset), get(registers, src_reg));
 
                 (*DEBUG*)
                 print_mem(offset);
