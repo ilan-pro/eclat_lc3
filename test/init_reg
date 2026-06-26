@@ -1,0 +1,8 @@
+set(memory,  0, Instr(AND_IMM(0, 0, 0)));
+set(memory,  1, Instr(AND_IMM(1, 1, 0)));
+set(memory,  2, Instr(AND_IMM(2, 2, 0)));
+set(memory,  3, Instr(AND_IMM(3, 3, 0)));
+set(memory,  4, Instr(AND_IMM(4, 4, 0)));
+set(memory,  5, Instr(AND_IMM(5, 5, 0)));
+set(memory,  6, Instr(AND_IMM(6, 6, 0)));
+set(memory,  7, Instr(AND_IMM(7, 7, 0)));

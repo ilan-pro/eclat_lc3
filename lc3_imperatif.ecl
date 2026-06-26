@@ -44,10 +44,12 @@ type instruction = NOT of three_b * three_b
 
     | RET of unit 
 
-    (*
     | JSR of pc_offset_11
 
+    (*
     | JSRR of three_b
+
+    | RTI of unit 
 
     | TRAP of pc_offset_8
     *)
@@ -87,7 +89,8 @@ let get_reg_const cur_reg =
         Nous pouvons aussi transformer certaines constantes comme les char ou booléans afin de pouvoir utiliser leur 
         représentation entière 
     *)
-    | _ -> (assert false ; 0)
+    (*(assert false ; 0)*)
+    | _ -> 0
 ;;
 
 let get_r r = 
@@ -153,18 +156,23 @@ let print_instruction (instr : instruction) =
 
     | RET       _ -> print_string("RET")
 
+    | JSR       _ -> print_string("JSR")
+;;
+
 let print_reg cur_reg = 
-    print_string    ("[reg ");
+    print_string    ("| [reg ");
     print_int       (cur_reg);
     print_string    ("] ");
     let res_reg = get(registers, cur_reg) in 
-    match res_reg with 
+    (match res_reg with 
     | Bool b    -> print_string         ("voici le booléan : ") ; Bool.print(b)
     | Addr adr  -> print_string         ("voici l'adresse : ") ; print_int(adr)
     | Char c    -> print_string         ("voici le caractère : ") ; print_char(c)
     | Const s   -> print_string         ("voici le short : ") ; print_int(s)
     | Instr x   -> print_instruction    (x)
     | _         -> print_string         ("case du tableau vide ?")
+    );
+    print_string    ("                                    |")
 ;;
 
 let print_mem cur_posi = 
@@ -172,54 +180,74 @@ let print_mem cur_posi =
     print_int       (cur_posi);
     print_string    ("] ");
     let regis = get(memory, cur_posi) in
-    match regis with 
+    (match regis with 
     | Bool b    -> print_string         ("voici le booléan : ") ; Bool.print(b)
     | Addr adr  -> print_string         ("voici l'adresse : ") ; print_int(adr)
     | Char c    -> print_string         ("voici le caractère : ") ; print_char(c)
     | Const s   -> print_string         ("voici le short : ") ; print_int(s)
     | Instr x   -> print_instruction    (x)
     | _         -> print_string         ("case du tableau vide ?")
+    );
+    print_string    ("                                    |")
+
 ;;
 
-let debug cur_reg = 
-    print_string    ("DEBUG-----------------------------------------------------------------");
+let debug_reg cur_reg = 
+    print_string    ("| DEBUG_REG---------------------------------------------------- |");
     print_newline   ();
     print_reg       (cur_reg);
+    print_newline   ()
+;;
+
+let debug_pc() = 
+    print_string    ("| DEBUG_PC----------------------------------------------------- |");
     print_newline   ();
-    print_string    ("----------------------------------------------------------------------");
+    print_string    ("| ");
+    print_int       (get_r(pc));
+    print_string    ("                                                            |");
+    print_newline   ()
+;;
+
+let start_pretty_print() = 
+    print_string    ("+------------------------------[");
+    print_int       (get_r(pc));
+    print_string    ("]------------------------------+");
+    print_newline()
+;;
+
+let end_pretty_print() = 
+    print_string    ("+---------------------------------------------------------------+");
+    print_newline   ();
     print_newline   ();
     print_newline   ()
 ;;
 
-let debug_nzp () =  
-    print_string    ("NZP-------------------------------------------------------------------");
+
+let debug_nzp() =  
+    print_string    ("| DEBUG_NZP---------------------------------------------------- |");
     print_newline   ();
-    print_string    ("[");
+    print_string    ("| [");
     print_int       (int_resize<<32>>(get_n()));
     print_string    ("; ");
     print_int       (int_resize<<32>>(get_z()));
     print_string    ("; ");
     print_int       (int_resize<<32>>(get_p()));
-    print_string    ("]");
-    print_newline   ();
-    print_string    ("----------------------------------------------------------------------");
-    print_newline   ();
+    print_string    ("]                                                     |");
     print_newline   ()
 ;;
 
 
 (*---------------ENVIRONNEMENT----------------*)
-let init_env () = 
+let init_env() = 
     set_n(0);
     set_z(0);
     set_p(0);
     set_r(pc, 0);
     set_r(ir, Instr(NOP()));
-
     set(memory,  0, Instr(AND_IMM(0, 0, 0)));
-    set(memory,  1, Instr(ADD_IMM(0, 0, 29)));
-    set(memory,  2, Instr(STR(0, 0, 2)));
-    (*mettre à l'adresse reg[0] + 2 = 32 ce qu'il y a dans le registre 0 donc mem[32] = 29*)
+    set(memory,  1, Instr(AND_IMM(7, 7, 0)));
+    set(memory,  2, Instr(ADD_IMM(7, 7, 10)));
+    set(memory,  3, Instr(JSR(10)));
 
 
     set(memory, 30, Char('H'));
@@ -239,20 +267,17 @@ let init_env () =
 *)
 let rec decode () : unit = 
     let pc_tmp = get_r(pc) in 
-    print_string "pc=";
-    print_int pc_tmp;
-    print_newline();
-
+    start_pretty_print();
 
     let size = length(memory) in 
-    if(size <= pc_tmp) then (print_string "programme terminé" ; print_newline())
-    else (
-        
+    if(size <= pc_tmp) 
+        then (print_string "programme terminé" ; print_newline())
+    else    
         set_r(ir, get(memory, get_r(pc)));
         let curr_inst : value = get_r(ir) in    
         set_r(pc, pc_tmp + 1);
 
-        match curr_inst with 
+        (match curr_inst with 
         | Instr instr -> 
             (match instr with 
             | NOT(dst_reg, src_reg) -> 
@@ -271,10 +296,8 @@ let rec decode () : unit =
                     else (set_p(0))
                 in
 
-                debug(dst_reg);
-                debug_nzp();
-            
-                decode()
+                debug_reg(dst_reg);
+                debug_nzp()
 
             | ADD(dst_reg, sr1, sr2) -> 
                 let res = get_reg_const(sr1) + get_reg_const(sr2) in
@@ -291,10 +314,8 @@ let rec decode () : unit =
                     else (set_p(0))
                 in
 
-                debug(dst_reg);
-                debug_nzp();
-            
-                decode()
+                debug_reg(dst_reg);
+                debug_nzp()
 
             | ADD_IMM(dst_reg, sr1, imm) ->
                 (*
@@ -317,10 +338,8 @@ let rec decode () : unit =
                     else (set_p(0))
                 in
 
-                debug(dst_reg);
-                debug_nzp();
-
-                decode()
+                debug_reg(dst_reg);
+                debug_nzp()
 
             | AND(dst_reg, sr1, sr2) -> 
                 let res = Int.land(get_reg_const(sr1), get_reg_const(sr2)) in
@@ -337,10 +356,8 @@ let rec decode () : unit =
                     else (set_p(0))
                 in
 
-                debug(dst_reg);
-                debug_nzp();
-    
-                decode()
+                debug_reg(dst_reg);
+                debug_nzp()
 
             | AND_IMM(dst_reg, sr1, imm) -> 
                 let res = Int.land(get_reg_const(sr1), int_resize<<16>>(imm)) in
@@ -357,10 +374,8 @@ let rec decode () : unit =
                     else (set_p(0))
                 in
                 
-                debug(dst_reg);
-                debug_nzp();
-
-                decode()
+                debug_reg(dst_reg);
+                debug_nzp()
 
             | LEA(dst_reg, offset) -> 
                 (*
@@ -373,44 +388,36 @@ let rec decode () : unit =
                     Ainsi, si nous voulons que le registre pointe bien l'instruction contenu à pc + pc_off nous devons décrémenter 
                     pc_off de 1 (il vaut mieux faire ça car nous allons souvent oublier qu'il faut prendre cela en compte au moment d'écrire 
                     l'instruction brut dans la fonction `init_env`). 
-                    ATTENTION : je prends une copie de PC avant INCREMENT, donc pas besoin de décrementer
+                    ATTENTION : je prends une copie de PC avant INCREMENT, donc pas besoin de décrementer. C'est un 
+                    raccourcis (prendre le vrai tmp puis décrementer de 1 pour avoir parfaitement la même logique)
                     c.f notion rapport-2
                 *)
                 set(registers, dst_reg, Addr(pc_tmp + int_resize<<16>>(offset)));
 
-                debug(dst_reg);
-                decode()
+                debug_reg(dst_reg)
 
             | LD(dst_reg, offset) -> 
                 set(registers, dst_reg, get(memory, pc_tmp + int_resize<<16>>(offset)));
 
-                debug(dst_reg);
-                decode()
+                debug_reg(dst_reg)
 
             | ST(src_reg, offset) ->    
                 set(memory, pc_tmp + int_resize<<16>>(offset), get(registers, src_reg));
 
                 (*DEBUG*)
                 print_mem       (pc_tmp + int_resize<<16>>(offset));
-                print_newline   ();
                 print_reg       (src_reg);
-                print_newline   ();
-
-                decode()
+                print_newline   ()
 
             | LDR(dst_reg, sr1, offset) -> 
                 set(registers, dst_reg, get(memory, get_reg_const(sr1) + int_resize<<16>>(offset)));
 
-                debug(dst_reg);
-                decode()
+                debug_reg(dst_reg)
 
             | STR(src_reg, sr1, offset) -> 
-                set(memory, get_reg_const(sr1) + int_resize<<16>>(offset), get(registers, src_reg));
+                set(memory, get_reg_const(sr1) + int_resize<<16>>(offset), get(registers, src_reg))
 
-                decode()
-
-            | NOP() -> 
-                decode()
+            | NOP() -> ()
 
             | BR(n, z, p, offset) -> 
                 (*
@@ -428,45 +435,62 @@ let rec decode () : unit =
                         then set_r(pc, pc_tmp + int_resize<<16>>(offset))
                     else if(get_bit(get_p(), 0) && get_bit(p, 0)) 
                         then set_r(pc, pc_tmp + int_resize<<16>>(offset))
-                ) in decode()
+                ) in ()
             
             | JMP src_reg -> 
-                set_r(pc, get_reg_const(src_reg));
-
-                decode()
+                set_r(pc, get_reg_const(src_reg))
 
             | RET() -> 
-                set_r(pc, get_reg_const(7));
+                set_r(pc, get_reg_const(7))
 
-                decode() 
+            | JSR offset -> 
+                let cur_pc = get_r(pc) in 
+                set(registers, 7, Const(cur_pc));
+                set_r(pc, cur_pc + int_resize<<16>>(offset));
+
+                debug_reg(7);
+                debug_pc()
             ) 
 
         | Char c -> 
-            print_string("[") ; print_int(pc_tmp) ; print_string("] : "); print_char(c);
-            print_newline();
-
-            decode()
+            print_string    ("| [mem "); 
+            print_int       (pc_tmp); 
+            print_string    ("] : "); 
+            print_char      (c);
+            print_string    ("                                                 |");
+            print_newline   ()
 
         | Const c -> 
-            print_string("[") ; print_int(pc_tmp) ; print_string("] : "); print_int(c);
-            print_newline();
-
-            decode()
+            print_string    ("| [mem "); 
+            print_int       (pc_tmp); 
+            print_string    ("] : ");
+            print_int       (c);
+            print_string    ("                                                 |");
+            print_newline   ()
         
         | Addr a -> 
-            print_string("[") ; print_int(pc_tmp) ; print_string("] : "); print_int(a);
-            print_newline();
-
-            decode()
+            print_string    ("| [mem ");
+            print_int       (pc_tmp); 
+            print_string    ("] : "); 
+            print_int       (a);
+            print_string    ("                                                 |");
+            print_newline   ()
 
         | Bool b -> 
-            print_string("[") ; print_int(pc_tmp) ; print_string("] : "); Bool.print(b);
-            print_newline();
+            print_string    ("| [mem "); 
+            print_int       (pc_tmp); 
+            print_string    ("] : "); 
+            Bool.print      (b);
+            print_string    ("                                                 |");
+            print_newline   ()
 
-            decode()
+        | _ -> 
+            print_string    ("| vide                                                           |"); 
+            print_newline   ()
+        );
 
-        | _ -> print_string("NOP") ; print_newline() ; decode()
-    )
+        end_pretty_print();
+        decode()
 ;;
 
 
