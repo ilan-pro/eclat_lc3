@@ -1,6 +1,6 @@
-set(memory,  0, Instr(AND_IMM(0, 0, 0)));
-set(memory,  1, Instr(ADD_IMM(0, 0, 29)));
-set(memory,  2, Instr(STR(0, 0, 2)));
+set(memory,  10, Instr(AND_IMM(0, 0, 0)));
+set(memory,  11, Instr(ADD_IMM(0, 0, 29)));
+set(memory,  12, Instr(STR(0, 0, 2)));
 (*mettre à l'adresse reg[0] + 2 = 31 ce qu'il y a dans le registre 0 donc mem[31] = 29*)
 
 

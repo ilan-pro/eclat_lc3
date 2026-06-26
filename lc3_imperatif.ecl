@@ -31,10 +31,8 @@ type instruction = NOT of three_b * three_b
     | LDR of three_b * three_b * pc_offset_6
     | STR of three_b * three_b * pc_offset_6
     
-    (*
     | LDI of three_b * pc_offset_9
     | STI of three_b * pc_offset_9
-    *)
     
     | BR of flag * flag * flag * pc_offset_9
 
@@ -80,9 +78,8 @@ let memory : value array<3000> = create<3000>();;
 
 
 (*---------------ACCESSEURS----------------*)
-let get_reg_const cur_reg = 
-    let regis = get(registers, cur_reg) in
-    match regis with 
+let get_const inst = 
+    match inst with 
     | Const c -> c 
     (* 
         Pour ce qui est du assert, nous pouvons avoir une approche différente comme juste renvoyer 0 
@@ -92,6 +89,12 @@ let get_reg_const cur_reg =
     (*(assert false ; 0)*)
     | _ -> 0
 ;;
+
+let get_reg_const cur_reg = 
+    let regis = get(registers, cur_reg) in
+    get_const(regis)
+;;
+
 
 let get_r r = 
     get(r, 0)
@@ -144,10 +147,9 @@ let print_instruction (instr : instruction) =
     | LDR       _ -> print_string("LDR")
     | STR       _ -> print_string("STR")
     
-    (*
     | LDI       _ -> print_string("LDI")
     | STI       _ -> print_string("STI")
-    *)
+
     | BR        _ -> print_string("BR")
 
     | NOP       _ -> print_string("NOP")
@@ -244,18 +246,19 @@ let init_env() =
     set_p(0);
     set_r(pc, 0);
     set_r(ir, Instr(NOP()));
+
     set(memory,  0, Instr(AND_IMM(0, 0, 0)));
-    set(memory,  1, Instr(AND_IMM(7, 7, 0)));
-    set(memory,  2, Instr(ADD_IMM(7, 7, 10)));
-    set(memory,  3, Instr(JSR(10)));
+    set(memory,  1, Instr(AND_IMM(1, 1, 0)));
+    set(memory,  2, Instr(AND_IMM(2, 2, 0)));
+    set(memory,  3, Instr(AND_IMM(3, 3, 0)));
+    set(memory,  4, Instr(AND_IMM(4, 4, 0)));
+    set(memory,  5, Instr(AND_IMM(5, 5, 0)));
+    set(memory,  6, Instr(AND_IMM(6, 6, 0)));
+    set(memory,  7, Instr(AND_IMM(7, 7, 0)));
 
-
-    set(memory, 30, Char('H'));
-    set(memory, 31, Char('e'));
-    set(memory, 32, Char('l'));
-    set(memory, 33, Char('l'));
-    set(memory, 34, Char('o'));
-    set(memory, 35, Char('!'))
+    set(memory, 10, Instr(AND_IMM(0, 0, 0)));
+    set(memory, 11, Instr(ADD_IMM(0, 0, 29)));
+    set(memory, 12, Instr(ADD_IMM(0, 0, -1)))
 ;;
  
 
@@ -416,6 +419,19 @@ let rec decode () : unit =
 
             | STR(src_reg, sr1, offset) -> 
                 set(memory, get_reg_const(sr1) + int_resize<<16>>(offset), get(registers, src_reg))
+
+            (*TODO : PAS TESTÉ*)
+            | LDI(dst_reg, offset) -> 
+                let val_1 = get(memory, pc_tmp + int_resize<<16>>(offset)) in
+                let const_mem = get_const(val_1) in 
+                let val_2 = get(memory, const_mem) in
+                set(memory, dst_reg, val_2)
+
+            (*TODO : PAS TESTÉ*)
+            | STI(src_reg, offset) ->   
+                let val_instruction = get(memory, pc_tmp + int_resize<<16>>(offset)) in
+                let val = get_const(val_instruction) in
+                set(memory, val, get(registers, src_reg))
 
             | NOP() -> ()
 

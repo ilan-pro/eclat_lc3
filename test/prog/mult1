@@ -1,0 +1,20 @@
+RET = 9
+loop = 6
+mul = 3
+
+
+set(memory, 10, Instr(LD(0, 30)));
+set(memory, 11, Instr(LD(1, 30)));
+set(memory, 12, Instr(JSR(0)));
+
+set(memory, 13, Instr(AND(2, 2, 0)));
+set(memory, 14, Instr(AND(1, 1, 1)));
+set(memory, 15, Instr(BR(0, 1, 0, 4)));
+set(memory, 16, Instr(ADD(2, 2, 0)));
+set(memory, 17, Instr(ADD(1, 1, -1)));
+set(memory, 18, Instr(BR(0, 0, 1, -2)));
+set(memory, 19, Instr(RET()));
+
+
+set(memory, 30, Const(2));
+set(memory, 31, Const(3))
