@@ -20,21 +20,21 @@ type instruction = NOT of three_b * three_b
     | ADD of three_b * three_b * three_b
     | AND of three_b * three_b * three_b
 
-    | ADD_IMM of three_b * three_b * imm
-    | AND_IMM of three_b * three_b * imm
+    | ADD_IMM of three_b * three_b * short
+    | AND_IMM of three_b * three_b * short
     
-    | LEA of three_b * pc_offset_9
+    | LEA of three_b * short
     
-    | LD of three_b * pc_offset_9
-    | ST of three_b * pc_offset_9
+    | LD of three_b * short
+    | ST of three_b * short
     
-    | LDR of three_b * three_b * pc_offset_6
-    | STR of three_b * three_b * pc_offset_6
+    | LDR of three_b * three_b * short
+    | STR of three_b * three_b * short
     
-    | LDI of three_b * pc_offset_9
-    | STI of three_b * pc_offset_9
+    | LDI of three_b * short
+    | STI of three_b * short
     
-    | BR of flag * flag * flag * pc_offset_9
+    | BR of flag * flag * flag * short
 
     | NOP of unit
 
@@ -42,7 +42,7 @@ type instruction = NOT of three_b * three_b
 
     | RET of unit 
 
-    | JSR of pc_offset_11
+    | JSR of short
 
     (*
     | JSRR of three_b
@@ -162,7 +162,7 @@ let print_instruction (instr : instruction) =
 ;;
 
 let print_reg cur_reg = 
-    print_string    ("| [reg ");
+    print_string    ("| [R");
     print_int       (cur_reg);
     print_string    ("] ");
     let res_reg = get(registers, cur_reg) in 
@@ -256,9 +256,22 @@ let init_env() =
     set(memory,  6, Instr(AND_IMM(6, 6, 0)));
     set(memory,  7, Instr(AND_IMM(7, 7, 0)));
 
-    set(memory, 10, Instr(AND_IMM(0, 0, 0)));
-    set(memory, 11, Instr(ADD_IMM(0, 0, 29)));
-    set(memory, 12, Instr(ADD_IMM(0, 0, -1)))
+    set(memory, 10, Instr(LD(0, 20)));
+    set(memory, 11, Instr(LD(1, 20)));
+    set(memory, 12, Instr(JSR(0)));
+
+    set(memory, 13, Instr(AND(2, 2, 0)));
+    set(memory, 14, Instr(AND(1, 1, 1)));
+    set(memory, 15, Instr(BR(0, 1, 0, 4)));
+
+    set(memory, 16, Instr(ADD(2, 2, 0)));
+    set(memory, 17, Instr(ADD_IMM(1, 1, -1)));
+    set(memory, 18, Instr(BR(0, 0, 1, -2)));
+    set(memory, 19, Instr(NOP()));
+
+
+    set(memory, 30, Const(2));
+    set(memory, 31, Const(3))
 ;;
  
 
@@ -327,7 +340,7 @@ let rec decode () : unit =
                     Pour cela, nous pouvons utiliser int_resize de la bibliothèque 
                     standard d'Eclat
                 *)
-                let res = get_reg_const(sr1) + int_resize<<16>>(imm) in
+                let res = (get_reg_const(sr1) + imm) in
                 set(registers, dst_reg, Const(res));
 
                 let _ = 
@@ -363,7 +376,7 @@ let rec decode () : unit =
                 debug_nzp()
 
             | AND_IMM(dst_reg, sr1, imm) -> 
-                let res = Int.land(get_reg_const(sr1), int_resize<<16>>(imm)) in
+                let res = Int.land(get_reg_const(sr1), imm) in
                 set(registers, dst_reg, Const(res));
                 
                 let _ = 
@@ -395,41 +408,41 @@ let rec decode () : unit =
                     raccourcis (prendre le vrai tmp puis décrementer de 1 pour avoir parfaitement la même logique)
                     c.f notion rapport-2
                 *)
-                set(registers, dst_reg, Addr(pc_tmp + int_resize<<16>>(offset)));
+                set(registers, dst_reg, Addr(pc_tmp + offset));
 
                 debug_reg(dst_reg)
 
             | LD(dst_reg, offset) -> 
-                set(registers, dst_reg, get(memory, pc_tmp + int_resize<<16>>(offset)));
+                set(registers, dst_reg, get(memory, pc_tmp + offset));
 
                 debug_reg(dst_reg)
 
             | ST(src_reg, offset) ->    
-                set(memory, pc_tmp + int_resize<<16>>(offset), get(registers, src_reg));
+                set(memory, pc_tmp + offset, get(registers, src_reg));
 
                 (*DEBUG*)
-                print_mem       (pc_tmp + int_resize<<16>>(offset));
+                print_mem       (pc_tmp + offset);
                 print_reg       (src_reg);
                 print_newline   ()
 
             | LDR(dst_reg, sr1, offset) -> 
-                set(registers, dst_reg, get(memory, get_reg_const(sr1) + int_resize<<16>>(offset)));
+                set(registers, dst_reg, get(memory, get_reg_const(sr1) + offset));
 
                 debug_reg(dst_reg)
 
             | STR(src_reg, sr1, offset) -> 
-                set(memory, get_reg_const(sr1) + int_resize<<16>>(offset), get(registers, src_reg))
+                set(memory, get_reg_const(sr1) + offset, get(registers, src_reg))
 
             (*TODO : PAS TESTÉ*)
             | LDI(dst_reg, offset) -> 
-                let val_1 = get(memory, pc_tmp + int_resize<<16>>(offset)) in
+                let val_1 = get(memory, pc_tmp + offset) in
                 let const_mem = get_const(val_1) in 
                 let val_2 = get(memory, const_mem) in
                 set(memory, dst_reg, val_2)
 
             (*TODO : PAS TESTÉ*)
             | STI(src_reg, offset) ->   
-                let val_instruction = get(memory, pc_tmp + int_resize<<16>>(offset)) in
+                let val_instruction = get(memory, pc_tmp + offset) in
                 let val = get_const(val_instruction) in
                 set(memory, val, get(registers, src_reg))
 
@@ -446,11 +459,11 @@ let rec decode () : unit =
                 let _ = 
                 (
                     if(get_bit(get_n(), 0) && get_bit(n, 0)) 
-                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                        then set_r(pc, pc_tmp + offset)
                     else if(get_bit(get_z(), 0) && get_bit(z, 0)) 
-                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                        then set_r(pc, pc_tmp + offset)
                     else if(get_bit(get_p(), 0) && get_bit(p, 0)) 
-                        then set_r(pc, pc_tmp + int_resize<<16>>(offset))
+                        then set_r(pc, pc_tmp + offset)
                 ) in ()
             
             | JMP src_reg -> 
@@ -462,7 +475,7 @@ let rec decode () : unit =
             | JSR offset -> 
                 let cur_pc = get_r(pc) in 
                 set(registers, 7, Const(cur_pc));
-                set_r(pc, cur_pc + int_resize<<16>>(offset));
+                set_r(pc, cur_pc + offset);
 
                 debug_reg(7);
                 debug_pc()

@@ -17,3 +17,6 @@ ATTENTION : certaines instructions conservent cet incrément avec `PC`. Par exem
 
 Globalement, le style impératif est apprecié dans le cas de programme lourd tandis que le style fonctionnel est appréciable quand nous cherchons le gain de performance étant donné qu'il sera bien plus naturel pour la programmation parallélisé.
 Dans le cadre du langage `Eclat`, la programmation impérative impose certaines contraintes de cycle d'horloge qui amoindrit la performance global du programme. Les accès aux structures de donnée impératives (comme les arrays) sont garantit de prendre 1 cycle par accès (E/S) du à la présence de verrou. Aux antipodes des sutrctures de donnée fonctionnel, qui sont accessibles de manière immédiate. Il y a des pour et des contres pour les deux approches. Les critères se portent aussi sur la simplicité à écrire du code dans les deux cas.
+
+## Jeux de test dans le dossier `test`
+Il suffit de mettre le code correspondant dans la fonction qui initialise l'environnement dans les implémentations LC-3 choisit. Normalement, les indices sont correcte. (Un possible parseur verra le jour dans les jours qui suivent pour écrire en LC-3 et ne pas à avoir à se soucier de la translation du programme en Eclat).
