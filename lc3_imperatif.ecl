@@ -44,6 +44,12 @@ type instruction = NOT of three_b * three_b
 
     | JSR of short
 
+    | PRINT_REG of three_b
+
+    | PRINT_STR of string 
+
+    | PRINT_LINE of unit
+
     (*
     | JSRR of three_b
 
@@ -74,13 +80,14 @@ let ir : value array<1> = create<1>();;
 *)
 let registers : value array<8> = create<8>();;
 
-let memory : value array<3000> = create<3000>();;
+let memory : value array<1000> = create<1000>();;
 
 
 (*---------------ACCESSEURS----------------*)
 let get_const inst = 
     match inst with 
     | Const c -> c 
+    | Addr a -> a
     (* 
         Pour ce qui est du assert, nous pouvons avoir une approche différente comme juste renvoyer 0 
         Nous pouvons aussi transformer certaines constantes comme les char ou booléans afin de pouvoir utiliser leur 
@@ -90,7 +97,7 @@ let get_const inst =
     | _ -> 0
 ;;
 
-let get_reg_const cur_reg = 
+let get_reg cur_reg = 
     let regis = get(registers, cur_reg) in
     get_const(regis)
 ;;
@@ -132,33 +139,37 @@ let set_p val =
 (*---------------AFFICHAGE/DEBUG----------------*)
 let print_instruction (instr : instruction) = 
     match instr with 
-    | NOT       _ -> print_string("NOT")
-    | ADD       _ -> print_string("ADD")
-    | AND       _ -> print_string("AND")
+    | NOT _         -> print_string("NOT")
+    | ADD _         -> print_string("ADD")
+    | AND _         -> print_string("AND")
 
-    | ADD_IMM   _ -> print_string("ADD_IMM")
-    | AND_IMM   _ -> print_string("AND_IMM")
+    | ADD_IMM _     -> print_string("ADD_IMM")
+    | AND_IMM _     -> print_string("AND_IMM")
     
-    | LEA       _ -> print_string("LEA")
+    | LEA _         -> print_string("LEA")
     
-    | LD        _ -> print_string("LD")
-    | ST        _ -> print_string("ST")
+    | LD _          -> print_string("LD")
+    | ST _          -> print_string("ST")
     
-    | LDR       _ -> print_string("LDR")
-    | STR       _ -> print_string("STR")
+    | LDR _         -> print_string("LDR")
+    | STR _         -> print_string("STR")
     
-    | LDI       _ -> print_string("LDI")
-    | STI       _ -> print_string("STI")
+    | LDI _         -> print_string("LDI")
+    | STI _         -> print_string("STI")
 
-    | BR        _ -> print_string("BR")
+    | BR _          -> print_string("BR")
 
-    | NOP       _ -> print_string("NOP")
+    | NOP _         -> print_string("NOP")
 
-    | JMP       _ -> print_string("JMP")
+    | JMP _         -> print_string("JMP")
 
-    | RET       _ -> print_string("RET")
+    | RET _         -> print_string("RET")
 
-    | JSR       _ -> print_string("JSR")
+    | JSR _         -> print_string("JSR")
+
+    | PRINT_REG _   -> print_string("PRINT_REG")
+    | PRINT_STR _   -> print_string("PRINT_STR")
+    | PRINT_LINE _  -> print_string("PRINT_LINE")
 ;;
 
 let print_reg cur_reg = 
@@ -170,7 +181,7 @@ let print_reg cur_reg =
     | Bool b    -> print_string         ("voici le booléan : ") ; Bool.print(b)
     | Addr adr  -> print_string         ("voici l'adresse : ") ; print_int(adr)
     | Char c    -> print_string         ("voici le caractère : ") ; print_char(c)
-    | Const s   -> print_string         ("voici le short : ") ; print_int(s)
+    | Const s   -> print_string         ("voici le const : ") ; print_int(s)
     | Instr x   -> print_instruction    (x)
     | _         -> print_string         ("case du tableau vide ?")
     );
@@ -255,23 +266,14 @@ let init_env() =
     set(memory,  5, Instr(AND_IMM(5, 5, 0)));
     set(memory,  6, Instr(AND_IMM(6, 6, 0)));
     set(memory,  7, Instr(AND_IMM(7, 7, 0)));
+        
+    set(memory, 10, Instr(ADD_IMM(0, 0, 10)));
 
-    set(memory, 10, Instr(LD(0, 20)));
-    set(memory, 11, Instr(LD(1, 20)));
-    set(memory, 12, Instr(JSR(0)));
-
-    set(memory, 13, Instr(AND(2, 2, 0)));
-    set(memory, 14, Instr(AND(1, 1, 1)));
-    set(memory, 15, Instr(BR(0, 1, 0, 4)));
-
-    set(memory, 16, Instr(ADD(2, 2, 0)));
-    set(memory, 17, Instr(ADD_IMM(1, 1, -1)));
-    set(memory, 18, Instr(BR(0, 0, 1, -2)));
-    set(memory, 19, Instr(NOP()));
+    set(memory, 12, Instr(PRINT_REG(0)));
+    set(memory, 11, Instr(PRINT_STR("-->")));
+    set(memory, 13, Instr(PRINT_LINE()))
 
 
-    set(memory, 30, Const(2));
-    set(memory, 31, Const(3))
 ;;
  
 
@@ -282,13 +284,16 @@ let init_env() =
     Pour savoir pourquoi certaines instructions modifient les flags `nzp`, il faut se réferer au polycopié.
 *)
 let rec decode () : unit = 
-    let pc_tmp = get_r(pc) in 
-    start_pretty_print();
+    let pc_tmp = get_r(pc) in ();
 
     let size = length(memory) in 
-    if(size <= pc_tmp) 
-        then (print_string "programme terminé" ; print_newline())
-    else    
+    if(size <= pc_tmp) then (
+        print_string("programme terminé"); 
+        print_newline(); 
+        ()
+
+    ) else (   
+        start_pretty_print();
         set_r(ir, get(memory, get_r(pc)));
         let curr_inst : value = get_r(ir) in    
         set_r(pc, pc_tmp + 1);
@@ -298,7 +303,7 @@ let rec decode () : unit =
             (match instr with 
             | NOT(dst_reg, src_reg) -> 
                 (*lnot pour logical not venant de `stdlib`*)
-                let res = lnot(get_reg_const(src_reg)) in
+                let res = lnot(get_reg(src_reg)) in
                 set(registers, dst_reg, Const(res));
 
                 let _ = 
@@ -316,7 +321,7 @@ let rec decode () : unit =
                 debug_nzp()
 
             | ADD(dst_reg, sr1, sr2) -> 
-                let res = get_reg_const(sr1) + get_reg_const(sr2) in
+                let res = get_reg(sr1) + get_reg(sr2) in
                 set(registers, dst_reg, Const(res));
 
                 let _ = 
@@ -340,7 +345,7 @@ let rec decode () : unit =
                     Pour cela, nous pouvons utiliser int_resize de la bibliothèque 
                     standard d'Eclat
                 *)
-                let res = (get_reg_const(sr1) + imm) in
+                let res = (get_reg(sr1) + imm) in
                 set(registers, dst_reg, Const(res));
 
                 let _ = 
@@ -358,7 +363,7 @@ let rec decode () : unit =
                 debug_nzp()
 
             | AND(dst_reg, sr1, sr2) -> 
-                let res = Int.land(get_reg_const(sr1), get_reg_const(sr2)) in
+                let res = Int.land(get_reg(sr1), get_reg(sr2)) in
                 set(registers, dst_reg, Const(res));
 
                 let _ = 
@@ -376,7 +381,7 @@ let rec decode () : unit =
                 debug_nzp()
 
             | AND_IMM(dst_reg, sr1, imm) -> 
-                let res = Int.land(get_reg_const(sr1), imm) in
+                let res = Int.land(get_reg(sr1), imm) in
                 set(registers, dst_reg, Const(res));
                 
                 let _ = 
@@ -426,12 +431,12 @@ let rec decode () : unit =
                 print_newline   ()
 
             | LDR(dst_reg, sr1, offset) -> 
-                set(registers, dst_reg, get(memory, get_reg_const(sr1) + offset));
+                set(registers, dst_reg, get(memory, get_reg(sr1) + offset));
 
                 debug_reg(dst_reg)
 
             | STR(src_reg, sr1, offset) -> 
-                set(memory, get_reg_const(sr1) + offset, get(registers, src_reg))
+                set(memory, get_reg(sr1) + offset, get(registers, src_reg))
 
             (*TODO : PAS TESTÉ*)
             | LDI(dst_reg, offset) -> 
@@ -467,18 +472,28 @@ let rec decode () : unit =
                 ) in ()
             
             | JMP src_reg -> 
-                set_r(pc, get_reg_const(src_reg))
+                set_r(pc, get_reg(src_reg))
 
             | RET() -> 
-                set_r(pc, get_reg_const(7))
+                set_r(pc, get_reg(7))
 
             | JSR offset -> 
                 let cur_pc = get_r(pc) in 
                 set(registers, 7, Const(cur_pc));
-                set_r(pc, cur_pc + offset);
+                set_r(pc, pc_tmp + offset);
 
                 debug_reg(7);
                 debug_pc()
+
+            | PRINT_REG src_reg -> 
+                print_int (get_reg(src_reg))
+
+            | PRINT_STR str -> 
+                print_string str
+
+            | PRINT_LINE -> 
+                print_newline()
+                
             ) 
 
         | Char c -> 
@@ -520,6 +535,7 @@ let rec decode () : unit =
 
         end_pretty_print();
         decode()
+    )
 ;;
 
 

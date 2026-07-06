@@ -1,0 +1,40 @@
+(*
+    Ce programme va calculer la somme des entiers de 5 à 1.
+    L'entier donc on veut calculer la somme est stocké au début dans le registre 0, à 
+    l'instruction 12
+*)
+
+pile = 600 
+ret1 = 15
+ret2 = 20
+somme = 22
+zero = 32
+finsomme = 33
+fin = 36
+stackend = 600
+
+set(memory, 10, Instr(LEA(6, 590)));
+set(memory, 11, Instr(AND_IMM(0, 0, 0)));
+set(memory, 12, Instr(ADD_IMM(0, 0, 5)));
+set(memory, 13, Instr(LEA(7, 23)));
+set(memory, 14, Instr(BR(1, 1, 1, 8)));   
+
+set(memory, 22, Instr(ADD_IMM(6, 6, -2)));
+set(memory, 23, Instr(STR(0, 6, 0)));
+set(memory, 24, Instr(STR(7, 6, 1)));
+set(memory, 25, Instr(AND(0, 0, 0)));
+set(memory, 26, Instr(BR(1, 1, 0, 6)));
+set(memory, 27, Instr(ADD_IMM(0, 0, -1)));
+set(memory, 28, Instr(JSR(-6)));
+set(memory, 29, Instr(LDR(0, 6, 0)));
+set(memory, 30, Instr(ADD(1, 1, 0)));
+set(memory, 31, Instr(BR(1, 1, 1, 2)));
+
+set(memory, 32, Instr(AND_IMM(1, 1, 0)));
+
+set(memory, 33, Instr(LDR(7, 6, 1)));
+set(memory, 34, Instr(ADD_IMM(6, 6, 2)));
+set(memory, 35, Instr(RET()));
+set(memory, 36, Instr(NOP()))
+
+(*Il faut une zone mémoire de x50 mots 16 bits, la pile décroit vers le haut, adresse arbitrairement grande -> 600*)
