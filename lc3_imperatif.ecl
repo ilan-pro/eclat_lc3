@@ -378,6 +378,7 @@ let init_env() =
     set(memory, 21, Instr(BR(1, 1, 1, 502)));      
 
     (*Fonction mvt(src, dst)*)
+
     set(memory, 22, Instr(ADD_IMM(6, 6, -3)));
     set(memory, 23, Instr(STR(0, 6, 0)));
     set(memory, 24, Instr(STR(1, 6, 1)));
@@ -398,46 +399,49 @@ let init_env() =
     set(memory, 36, Instr(RET()));
 
     (*Fonction hanoi(nb_disques, src, dst)*)
-    set(memory, 37, Instr(ADD_IMM(6, 6, -4)));
+
+    set(memory, 37, Instr(ADD_IMM(6, 6, -5)));
     set(memory, 38, Instr(STR(7, 6, 0)));
     set(memory, 39, Instr(STR(0, 6, 1)));
     set(memory, 40, Instr(STR(1, 6, 2)));
     set(memory, 41, Instr(STR(2, 6, 3)));
+    set(memory, 42, Instr(STR(3, 6, 4)));
 
-    set(memory, 42, Instr(LDR(0, 6, 4)));
-    set(memory, 43, Instr(AND(0, 0, 0)));
-    set(memory, 44, Instr(BR(1, 1, 0, 20)));        (*On s'arrête là, le nombre de disque est <= 0*)
+    set(memory, 43, Instr(LDR(0, 6, 5)));
+    set(memory, 44, Instr(AND(0, 0, 0)));
+    set(memory, 45, Instr(BR(1, 1, 0, 20)));        (*On s'arrête là, le nombre de disque est <= 0*)
 
-    set(memory, 45, Instr(ADD_IMM(0, 0, -1)));      (*R0 <- nb_disques - 1*)
+    set(memory, 46, Instr(ADD_IMM(0, 0, -1)));      (*R0 <- nb_disques - 1*)
 
-    set(memory, 46, Instr(LDR(1, 6, 5)));           (*R1 <- src*)
-    set(memory, 47, Instr(LDR(2, 6, 6)));           (*R2 <- dst*)
-    set(memory, 48, Instr(ADD(3, 1, 2)));
-    set(memory, 49, Instr(NOT(3, 3)));
-    set(memory, 50, Instr(ADD_IMM(3, 3, 7)));       (*itm = R3 <- 6 - src - dst*)
+    set(memory, 47, Instr(LDR(1, 6, 6)));           (*R1 <- src*)
+    set(memory, 48, Instr(LDR(2, 6, 7)));           (*R2 <- dst*)
+    set(memory, 49, Instr(ADD(3, 1, 2)));
+    set(memory, 50, Instr(NOT(3, 3)));
+    set(memory, 51, Instr(ADD_IMM(3, 3, 7)));       (*itm = R3 <- 6 - src - dst*)
 
-    set(memory, 51, Instr(ADD_IMM(6, 6, -3)));
-    set(memory, 52, Instr(STR(0, 6, 0)));
-    set(memory, 53, Instr(STR(1, 6, 1)));
-    set(memory, 54, Instr(STR(3, 6, 2)));
-    set(memory, 55, Instr(JSR(-18)));               (*hanoi(nb_disques - 1, src, itm)*)
+    set(memory, 52, Instr(ADD_IMM(6, 6, -3)));
+    set(memory, 53, Instr(STR(0, 6, 0)));
+    set(memory, 54, Instr(STR(1, 6, 1)));
+    set(memory, 55, Instr(STR(3, 6, 2)));
+    set(memory, 56, Instr(JSR(-19)));               (*hanoi(nb_disques - 1, src, itm)*)
 
-    set(memory, 56, Instr(STR(1, 6, 0)));
-    set(memory, 57, Instr(STR(2, 6, 1)));
-    set(memory, 58, Instr(JSR(-36)));               (*mvt(src, dst)*)
+    set(memory, 57, Instr(STR(1, 6, 0)));
+    set(memory, 58, Instr(STR(2, 6, 1)));
+    set(memory, 59, Instr(JSR(-37)));               (*mvt(src, dst)*)
 
-    set(memory, 59, Instr(STR(0, 6, 0)));
-    set(memory, 60, Instr(STR(3, 6, 1)));
-    set(memory, 61, Instr(STR(2, 6, 2)));
-    set(memory, 62, Instr(JSR(-25)));               (*hanoi(nb_disques - 1, itm, tgt)*)
-    set(memory, 63, Instr(ADD_IMM(6, 6, 3)));
+    set(memory, 60, Instr(STR(0, 6, 0)));
+    set(memory, 61, Instr(STR(3, 6, 1)));
+    set(memory, 62, Instr(STR(2, 6, 2)));
+    set(memory, 63, Instr(JSR(-26)));               (*hanoi(nb_disques - 1, itm, tgt)*)
+    set(memory, 64, Instr(ADD_IMM(6, 6, 3)));
 
-    set(memory, 64, Instr(LDR(2, 6, 3)));           (*prologue*)
-    set(memory, 65, Instr(LDR(1, 6, 2)));
-    set(memory, 66, Instr(LDR(0, 6, 1)));
-    set(memory, 67, Instr(LDR(7, 6, 0)));
-    set(memory, 68, Instr(ADD_IMM(6, 6, 4)));
-    set(memory, 69, Instr(RET()))
+    set(memory, 65, Instr(LDR(3, 6, 4)));
+    set(memory, 66, Instr(LDR(2, 6, 3)));           (*prologue - hanoi0*)
+    set(memory, 67, Instr(LDR(1, 6, 2)));
+    set(memory, 68, Instr(LDR(0, 6, 1)));
+    set(memory, 69, Instr(LDR(7, 6, 0)));
+    set(memory, 70, Instr(ADD_IMM(6, 6, 5)));
+    set(memory, 71, Instr(RET()))
 
 ;;
  
@@ -942,7 +946,7 @@ let main() =
     
     let (x, rdy) = 
         exec 
-            (init_env() ; decode())
+            (init_env() ; decode_minimalist())
         default() 
     in
     if(rdy)

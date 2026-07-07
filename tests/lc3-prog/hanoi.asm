@@ -47,11 +47,12 @@ mvt0:   LDR R7, R6, 2           ; épilogue
         RET
 
         ;; Fonction hanoi(nb_disques, src, dst)
-hanoi:  ADD R6, R6, -4
+hanoi:  ADD R6, R6, -5
         STR R7, R6, 0
         STR R0, R6, 1
         STR R1, R6, 2
         STR R2, R6, 3           ; prologue
+        STR R3, R6, 4
 
         LDR R0, R6, 4
         AND R0, R0, R0
@@ -84,7 +85,8 @@ hanoi:  ADD R6, R6, -4
         JSR hanoi              ; hanoi(nb_disques - 1, itm, dst)
         ADD R6, R6, 3
 
-hanoi0: LDR R2, R6, 3           ; prologue
+hanoi0: LDR R3, R6, 4
+        LDR R2, R6, 3           ; prologue
         LDR R1, R6, 2
         LDR R0, R6, 1
         LDR R7, R6, 0
