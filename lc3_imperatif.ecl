@@ -712,6 +712,19 @@ let rec decode () : unit =
     )
 ;;
 
+let maj_nzp(res) = 
+    let _ = 
+        if(res < 0) then(set_n(1))
+        else (set_n(0));
+
+        if(res == 0) then(set_z(1))
+        else (set_z(0));
+
+        if(res > 0) then(set_p(1))
+        else (set_p(0))
+    in ()
+;;
+
 let rec decode_minimalist () : unit = 
     let pc_tmp = get_r(pc) in ();
 
@@ -735,31 +748,13 @@ let rec decode_minimalist () : unit =
                 let res = lnot(get_reg(src_reg)) in
                 set(registers, dst_reg, Const(res));
 
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in ()
+                maj_nzp(res)
 
             | ADD(dst_reg, sr1, sr2) -> 
                 let res = get_reg(sr1) + get_reg(sr2) in
                 set(registers, dst_reg, Const(res));
 
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in ()
+                maj_nzp(res)
 
             | ADD_IMM(dst_reg, sr1, imm) ->
                 (*
@@ -771,46 +766,19 @@ let rec decode_minimalist () : unit =
                 let res = (get_reg(sr1) + imm) in
                 set(registers, dst_reg, Const(res));
 
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in ()
+                maj_nzp(res)
 
             | AND(dst_reg, sr1, sr2) -> 
                 let res = Int.land(get_reg(sr1), get_reg(sr2)) in
                 set(registers, dst_reg, Const(res));
 
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in ()
+                maj_nzp(res)
 
             | AND_IMM(dst_reg, sr1, imm) -> 
                 let res = Int.land(get_reg(sr1), imm) in
                 set(registers, dst_reg, Const(res));
                 
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in ()
+                maj_nzp(res)
 
             | LEA(dst_reg, offset) -> 
                 (*
@@ -846,7 +814,7 @@ let rec decode_minimalist () : unit =
                 let val_1 = get(memory, pc_tmp + offset) in
                 let const_mem = get_const(val_1) in 
                 let val_2 = get(memory, const_mem) in
-                set(memory, dst_reg, val_2)
+                set(registers, dst_reg, val_2)
 
             (*TODO : PAS TESTÉ*)
             | STI(src_reg, offset) ->   
@@ -891,7 +859,7 @@ let rec decode_minimalist () : unit =
             | PRINT_STR str -> 
                 print_string str
 
-            | PRINT_LINE -> 
+            | PRINT_LINE() -> 
                 print_newline()
                 
             ) 
