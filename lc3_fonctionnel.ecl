@@ -300,7 +300,7 @@ let decode_minimalist (env : etat_f) : etat_f =
 
                 | PRINT_REG src_reg -> 
                     print_int (get_const_p(env.regs, src_reg)); 
-                    env
+                    {env with leds = set_f(env.leds, src_reg, true)}
 
                 | PRINT_STR str -> 
                     print_bytes(str); 
@@ -359,11 +359,11 @@ let chrono() =
 ;;
 
 
-let main() = 
+let main((b1, b2) : (bool * bool)) = 
     let compteur = chrono() in
     let state = reg decode_minimalist init initial_state_f in
     if get_f(state.pc, 0) >= int_resize<<16>>(vect_size(state.memory)) 
-    then (
+    then (      
             print_string "+-------------+";
             print_newline();
             print_string "| compteur=";
@@ -374,4 +374,6 @@ let main() =
             print_newline(); 
             state.leds
         )
+    else 
+        state.leds
 ;;
