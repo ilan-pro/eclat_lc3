@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: rapport.aux
+The style file: unsrt.bst
+Database file #1: bibliographie.bib
+Warning--empty journal in these_eclat
+Warning--empty journal in these_hls
+You've used 3 entries,
+            1791 wiz_defined-function locations,
+            462 strings with 3985 characters,
+and the built_in function-call counts, 609 in all, are:
+= -- 50
+> -- 20
+< -- 2
++ -- 8
+- -- 5
+* -- 30
+:= -- 104
+add.period$ -- 10
+call.type$ -- 3
+change.case$ -- 3
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 34
+empty$ -- 63
+format.name$ -- 5
+if$ -- 137
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 5
+pop$ -- 15
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 16
+stack$ -- 0
+substring$ -- 15
+swap$ -- 7
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 6
+width$ -- 4
+write$ -- 33
+(There were 2 warnings)

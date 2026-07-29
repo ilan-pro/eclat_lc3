@@ -5,14 +5,15 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{fancyhdr}
 
 \newcommand{\latex}{\LaTeX}
 
 % -----------page 1-----------
-\title{Programmation FPGA avec Eclat : performances et chaîne de compilation libre}
-
-\author {Dahmane Ilan}
-
+\title{Programmation FPGA avec Eclat : performances}
+\author {Dahmane Ilan \\ 
+APR/LIP6 et IRILL   
+}
 \date{1 Juin 2026 - 31 Juillet 2026}
 
 \begin{document}
@@ -30,50 +31,84 @@ Giulio Manzonetto
 \begin{minipage}{0.4\textwidth}
 \textbf{Tuteur de stage :}\\
 Loïc Sylvestre\\
-Emmanuel Chailloux\\
-Jocelyn Sérot
+Emmanuel Chailloux
 \end{minipage}
 \end{center}
 
 % -----------page 2-----------
 \newpage
+\renewcommand{\contentsname}{Sommaire}
 \tableofcontents
 
 
 % -----------page 3-----------
 \newpage
 \section{Introduction}
-\paragraph{} Dans l'industrie informatique, les processeurs généralistes (CPU) constituent depuis plusieurs décennies la solution dominante pour l'exécution des programmes. 
+\paragraph{} Dans l'industrie informatique, les processeurs généralistes (CPU) constituent 
+depuis plusieurs décennies la solution dominante pour l'exécution des programmes. 
 Leur architecture est conçue pour offrir une grande flexibilité et pouvoir traiter une grande variété de tâches. 
-Cependant, cette généralité limite leur efficacité lorsqu'il s'agit d'exploiter le parallélisme massif présent dans certaines applications.
+Cependant, cette généralité limite leur efficacité lorsqu'il s'agit d'exploiter 
+le parallélisme massif présent dans certaines applications.
 
-Pour répondre à certains besoins spécifiques, les GPU (Graphics Processing Units) ont été développés initialement pour accélérer le rendu graphique. 
-Leur architecture massivement parallèle les rend particulièrement efficaces pour les applications reposant sur de nombreuses opérations similaires appliquées sur 
+Pour répondre à certains besoins spécifiques, les GPU (Graphics Processing Units) ont été développés 
+initialement pour accélérer le rendu graphique. 
+Leur architecture massivement parallèle les rend particulièrement efficaces pour 
+les applications reposant sur de nombreuses opérations similaires appliquées sur 
 de grands ensembles de données, comme le traitement d'image ou l'intelligence artificielle.
 
 Cependant, toutes les applications ne se prêtent pas naturellement à ce modèle de calcul. 
 Certaines nécessitent des architectures spécialisées capables d'exploiter un parallélisme différent, 
 avec des contraintes fortes en termes de latence, de consommation énergétique ou de traitement temps réel. 
-C'est dans ce contexte que les FPGA (Field Programmable Gate Array) constituent une solution intéressante grâce à leur capacité de reconfiguration et 
+C'est dans ce contexte que les FPGA (Field Programmable Gate Array) constituent 
+une solution intéressante grâce à leur capacité de reconfiguration \cite{sentieys:hal-00716772} et 
 leur aptitude à implémenter des architectures matérielles spécialisées.
 
-Cependant, leur programmation reste un domaine complexe nécessitant traditionnellement une description matérielle bas niveau. 
-Le langage Eclat s'inscrit dans cette problématique en proposant une approche permettant de décrire des calculs matériels avec un niveau d'abstraction supérieur 
+Cependant, leur programmation reste un domaine complexe nécessitant traditionnellement 
+une description matérielle bas niveau. Le langage Eclat \cite{these_eclat} s'inscrit dans cette problématique 
+en proposant une approche permettant de décrire des calculs matériels avec un niveau d'abstraction supérieur 
 tout en conservant une traduction efficace vers des architectures FPGA. 
 
-Ce stage a pour objectif d'étudier les performances de différentes approches de programmation en Eclat, 
-notamment à travers la comparaison de styles fonctionnels et impératifs via l'implémentation d'un processeur LC-3.
+Si les langages de plus haut niveau comme Eclat permettent de simplifier la programmation des FPGA, 
+ils soulèvent néanmoins une question importante. 
+Les concepteurs matériels raisonnent traditionnellement en termes de registres, de portes logiques, 
+de mémoires et de cycles d'horloge, tandis que les programmeurs sont habitués à 
+manipuler des abstractions de plus haut niveau, des structures de données complexes et 
+différents paradigmes de programmation. Il devient alors nécessaire de déterminer 
+quels styles de programmation permettent de concilier expressivité, sûreté et efficacité du matériel généré.
+
+Dans quelle mesure les styles de programmation fonctionnel et impératif proposés par Eclat 
+permettent-ils de décrire efficacement des algorithmes réalistes tout en générant des 
+architectures matérielles performantes ?
+
+Pour répondre à cette problématique, ce stage consiste à comparer les approches fonctionnelle et 
+impérative au travers de l'implémentations d'un processeur LC-3\footnote{Le LC-3 est un processeur pédagogique conçu par 
+Yale N.Patt et Sanjay J.Patel. Introduit dans leur ouvrage 
+Introduction to Computing Systems afin d'enseigner les principes fondamentaux de l'architecture des ordinateurs.}, 
+étudié à l'université de Paris-Cité durant le cours 
+de Circuits et Architecture enseigné par le professeur Adrien Guatto. Le processeur LC-3 constitue un excellent candidat 
+pour cette évaluation grâce à son compromis entre simplicité et représentativité. 
+Son architecture volontairement réduite permet une compréhension complète de son fonctionnement, 
+tout en mettant en œuvre de nombreux mécanismes caractéristiques des processeurs modernes. 
+Il sollicite ainsi plusieurs fonctionnalités importantes d'Eclat, telles que la gestion de l'état, 
+des registres, de la mémoire et des structures de données.
+Cette complexité maîtrisée en fait un support pertinent pour tester un large panel des fonctionnalités 
+du langage et comparer différentes approches d'implémentation. De plus, l'utilisation d'un même processeur 
+comme base d'expérimentation permet de conserver un comportement fonctionnel identique entre les différentes versions, 
+tout en observant l'impact du style de programmation choisi sur l'architecture matérielle générée, 
+les performances obtenues et les ressources utilisées.
+Les deux styles sont évalués selon différents critères tels que la 
+facilité d'écriture, les performances obtenues après synthèse et l'occupation des ressources matérielles sur FPGA.
 
 % -----------page 4-----------
 \newpage
-\section{Etat de l'art}
+\section{FPGA et programmation}
 \paragraph{} Les FPGA représentent une évolution majeure dans le domaine de la conception matérielle. 
 Contrairement aux circuits intégrés spécifiques (ASIC), dont la fabrication nécessite des coûts de conception initiaux très importants, 
 les FPGA permettent de configurer après fabrication une architecture matérielle adaptée à un besoin particulier. 
 Cette flexibilité réduit considérablement les coûts et les délais de développement, 
 notamment pour les systèmes nécessitant des évolutions fréquentes ou des productions en volumes limités.
 
-La particularité principale des FPGA réside dans leur capacité de reconfiguration. 
+La particularité principale des FPGA réside dans leur capacité de reconfiguration \cite{these_hls}. 
 Ils permettent d'exploiter un parallélisme spatial en instanciant directement plusieurs unités de calcul matérielles.
 Cette caractéristique en fait des accélérateurs matériels particulièrement adaptés à certaines applications industrielles nécessitant de fortes performances, 
 comme le traitement du signal, l'intelligence artificielle, le calcul scientifique ou encore les systèmes embarqués temps réel.
@@ -99,20 +134,61 @@ les programmes écrits dans ce langage en une description matérielle VHDL synth
 
 % -----------page 5-----------
 \newpage
-\section{Expérimentations}
-\paragraph{} L'objectif de ce stage est d'étudier l'impact du paradigme de programmation utilisé en Eclat sur l'architecture matérielle générée et ses performances. 
-Nous comparons une approche fonctionnelle, basée sur l'immuabilité des données et la création de nouvelles structures, avec une approche impérative exploitant davantage le partage mémoire.
-pour cela j'ai d'abord du prendre en main quartus qui est l'outil pour synthétiser du HDL sur carte physique. 
+\section{Éxperimentations}
+\subsection{Processeur LC-3}
+Pour répondre à notre question, nous allons reprendre un ancien projet de mon premier semestre de master. Ce projet portait sur la réalisation d'un 
+processeur à but éducatif nommé LC-3. C'est un processeur très rudimentaire, comprenant d'environ 15 instructions de base. Ces dernières se décomposent 
+en trois familles : : les instructions arithmétiques et logiques, les instructions de chargement et rangement et les instructions de 
+branchement (appelées aussi instructions de saut ou encore instructions de contrôle).
+
+Les instructions arithmétiques et logiques du LC-3 sont au nombre de trois. Le LC-3 possède une
+instruction ADD pour l’addition, une instruction AND pour le et logique bit à bit et une instruction NOT
+pour la négation bit à bit. Le résultat de ces trois opérations est toujours placé dans un registre. Les
+deux opérandes peuvent être soit les contenus de deux registres soit le contenu d’un registre et une
+constante pour ADD et AND.
+
+Les instructions de chargement et rangement comprennent des instructions (avec des noms
+commencent par LD) permettant de charger un registre avec une valeur et des instructions (avec des
+noms commencent par ST) permettant de ranger en mémoire le contenu d’un registre. Ces instructions
+se différencient par leurs modes d’adressage qui peut être immédiat, direct, indirect ou relatif. Les
+instructions de chargement sont LD, LDI, LDR, LEA et les instructions de rangement sont ST, STI et
+STR
+
+Les instructions de branchement comprennent les deux instructions de saut BR et JMP, les deux
+instructions d’appel de sous-routine JSR et JSRR, une instruction TRAP d’appel système (pas implementé), une
+instruction RET de retour de sous-routine et une instruction RTI de retour d’interruption (pas implementé).
+
+De plus, le micro-processeur LC-3 dispose de 8 registres généraux 16 bits appelés R0...R7 et comme tous les micro-processeurs, le LC-3 
+dispose d’un compteur de programme PC et d’un registre d’instruction IR qui sont tous les deux des registres 16 bits.
+
+Les indicateurs N, Z et P sont des registres 1 bit. Ils sont positionnés dès qu’une nouvelle valeur est mise dans un des registres généraux
+R0...R7. Ceci a lieu lors de l’exécution d’une instruction logique (NOT et AND), arithmétique (ADD)
+ou d’une instruction de chargement (LD, LDI, LDR et LEA). Ils indiquent respectivement si cette
+nouvelle valeur est négative (n), nulle (z) et positive (p). Ces indicateurs sont utilisés par l’instruction
+de branchement conditionnel BR pour savoir si le branchement doit être pris ou non.
+
+La mémoire du LC-3 est organisée par mots de 16 bits. L’adressage du LC-3 est également de 16 bits.
+La mémoire du LC-3 est donc formée de 216 mots de 16 bits, c’est-à-dire 128 KiB avec des adresses
+de 0000 à FFFF en hexadécimal. (insérer image ?)
+
+\subsection{Première implantation de LC3 en Eclat}
+Pour la première implémentation en Eclat du processeur, j'ai choisi de privilégier une approche impérative, 
+plus proche des langages de programmation classiques et plus pédagogique pour prendre en main Eclat. 
+Les registres ainsi que la mémoire ont été représentés par des tableaux, qui constituent la principale structure de données mutable du langage. 
+Les modifications sont effectuées en place, c'est-à-dire par réécriture directe des cases mémoire concernées, 
+sans recopier l'ensemble de la structure. Le tableau représentant la mémoire contient des valeurs du type somme value, 
+capable de représenter les différents éléments susceptibles d'être stockés en mémoire, tels qu'une instruction, une adresse, 
+un caractère ou une constante. Cette première implémentation est visible en annexe. 
+
+\subsection{Résultats des benchmarks}
 J'ai commencé par allumer simultannémament un paquet de leds 
 afin de comprendre la chaîne de compilation d'un langage de description matériel jusqu'à la production du .sof qui décrit le circuit et permet de flash sur la carte
 le circuit synthétiser par eclat.
 
-- Introduire le processeur sur lequel les benchmarks sont faits
 - Parler du nombre de bloc logique utilisé pour les deux synthèse
 - Parler du temps en cycle 
 - Parler de la facilité d'écriture 
 - Insérer des benchs avec un programme équivalent mais synthétisé avec la vm OCaml en Eclat
-
 
 
 % -----------page 6-----------
@@ -132,11 +208,7 @@ nombre d'entiers 32 bits, plus clair)
 hypothétique en attendant de finir les benchmarks et donc la conclusion.....
 
 \newpage
-\section*{Références}
-% pour ajouter manuellement à la table des matières 
-\addcontentsline{toc}{section}{Références}
-insérer thèse de Loïc
-insérer le document sur le HLS 
 
+\bibliographystyle{unsrt}     
+\bibliography{bibliographie}
 \end{document}
-

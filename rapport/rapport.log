@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  22 JUL 2026 15:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  29 JUL 2026 16:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -264,6 +264,25 @@ File: listings.cfg 2024/09/23 1.10c listings configuration
 ))
 Package: listings 2024/09/23 1.10c (Carsten Heinz)
 
+(/usr/local/texlive/2025basic/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+
+\f@nch@headwidth=\skip52
+\f@nch@offset@elh=\skip53
+\f@nch@offset@erh=\skip54
+\f@nch@offset@olh=\skip55
+\f@nch@offset@orh=\skip56
+\f@nch@offset@elf=\skip57
+\f@nch@offset@erf=\skip58
+\f@nch@offset@olf=\skip59
+\f@nch@offset@orf=\skip60
+\f@nch@height=\skip61
+\f@nch@footalignment=\skip62
+\f@nch@widthL=\skip63
+\f@nch@widthC=\skip64
+\f@nch@widthR=\skip65
+\@temptokenb=\toks20
+)
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
 ef
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
@@ -272,26 +291,26 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 ) (./rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Info: Redefining \degres on input line 18.
-LaTeX Info: Redefining \up on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Info: Redefining \degres on input line 19.
+LaTeX Info: Redefining \up on input line 19.
 
 (/usr/local/texlive/2025basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -300,12 +319,12 @@ LaTeX Info: Redefining \up on input line 18.
 \scratchbox=\box55
 \nofMPsegments=\count301
 \nofMParguments=\count302
-\everyMPshowfont=\toks20
+\everyMPshowfont=\toks21
 \MPscratchCnt=\count303
 \MPscratchDim=\dimen163
 \MPnumerator=\count304
 \makeMPintoPDFobject=\count305
-\everyMPtoPDFconversion=\toks21
+\everyMPtoPDFconversion=\toks22
 )
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.s
 ty
@@ -317,22 +336,22 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 18.
+Package hyperref Info: Link coloring OFF on input line 19.
  (./rapport.out) (./rapport.out)
 \@outlinefile=\write3
 \openout3 = `rapport.out'.
 
 \c@lstlisting=\count306
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 20.
+(Font)              <12> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 20.
+(Font)              <8> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 20.
+(Font)              <6> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 28.
+(Font)              <7> on input line 29.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 28.
+(Font)              <5> on input line 29.
 
 
 [1
@@ -345,7 +364,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 [2]
-Overfull \hbox (7.91382pt too wide) in paragraph at lines 46--49
+Overfull \hbox (7.91382pt too wide) in paragraph at lines 47--52
 \T1/cmr/m/n/10 de-puis plu-sieurs dé-cen-nies la so-lu-tion do-mi-nante pour l'
 exé-cu-tion des pro-grammes.
  []
@@ -360,32 +379,45 @@ exé-cu-tion des pro-grammes.
 
 [6]
 
-[7] (./rapport.aux)
+[7]
+
+[8] (./rapport.bbl)
+
+[9] (./rapport.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 4ECA9CC99507BA00DC6A41F5BC0F9914;536.
+(rerunfilecheck)             Checksum: D0158F29A2EB2FB0DCAAD27FEB00912C;1057.
  ) 
 Here is how much of TeX's memory you used:
- 11960 strings out of 474662
- 190455 string characters out of 5751109
- 597202 words of memory out of 5000000
- 34875 multiletter control sequences out of 15000+600000
- 566187 words of font info for 51 fonts, out of 8000000 for 9000
+ 12323 strings out of 474662
+ 196833 string characters out of 5751109
+ 607209 words of memory out of 5000000
+ 35218 multiletter control sequences out of 15000+600000
+ 569181 words of font info for 55 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,6n,79p,254b,451s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec
-/ecbx1440.600pk> </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfo
-ur/jknappen/ec/ecrm1000.600pk> </Users/ilan/Library/texlive/2025basic/texmf-var
-/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </Users/ilan/Library/texlive/2025b
-asic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </Users/ilan/Library
-/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk>
-Output written on rapport.pdf (7 pages, 63117 bytes).
+ 75i,6n,79p,307b,453s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{cite.sentieys\\penalty\040\\@M\040\040:hal-00716772
+} has been referenced but does not exist, replaced by a fixed one
+
+ </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/e
+cti1000.600pk> </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour
+/jknappen/ec/ecbx1200.600pk> </Users/ilan/Library/texlive/2025basic/texmf-var/f
+onts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </Users/ilan/Library/texlive/2025bas
+ic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </Users/ilan/Library/t
+exlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </Users/
+ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.6
+00pk> </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen
+/ec/ecbx1000.600pk> </Users/ilan/Library/texlive/2025basic/texmf-var/fonts/pk/l
+jfour/jknappen/ec/ecrm1200.600pk> </Users/ilan/Library/texlive/2025basic/texmf-
+var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk>
+Output written on rapport.pdf (9 pages, 97904 bytes).
 PDF statistics:
- 273 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
- 18 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 419 PDF objects out of 1000 (max. 8388607)
+ 126 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
+ 57 words of extra memory for PDF output out of 10000 (max. 10000000)
 

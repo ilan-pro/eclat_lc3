@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{sentieys:hal-00716772}
+Olivier Sentieys and Arnaud Tisserand.
+\newblock {Architectures reconfigurables FPGA}.
+\newblock In Techniques de~l'Ing{\'e}nieur, editor, {\em {Technologies
+  logicielles Architectures des syst{\`e}mes}}, volume H 1 196, pages 1--22.
+  {Techniques de l'Ing{\'e}nieur}, August 2012.
+
+\bibitem{these_eclat}
+Loïc Sylvestre.
+\newblock Programmation sûre, expressive et efficace de circuits fpga.
+\newblock 2025.
+
+\bibitem{these_hls}
+Daouda Diakité.
+\newblock Synthèse de haut niveau sur fpga pour problèmes inverses:
+  application à la tomographie et à la radioastronomie.
+\newblock 2023.
+
+\end{thebibliography}

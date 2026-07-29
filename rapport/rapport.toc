@@ -1,10 +1,11 @@
 \babel@toc {french}{}\relax 
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {paragraph}{}{3}{section*.2}%
-\contentsline {section}{\numberline {2}Etat de l'art}{4}{section.2}%
-\contentsline {paragraph}{}{4}{section*.3}%
-\contentsline {section}{\numberline {3}Expérimentations}{5}{section.3}%
-\contentsline {paragraph}{}{5}{section*.4}%
-\contentsline {section}{\numberline {4}Conclusion}{6}{section.4}%
-\contentsline {paragraph}{}{6}{section*.5}%
-\contentsline {section}{Références}{7}{section*.6}%
+\contentsline {section}{\numberline {2}FPGA et programmation}{5}{section.2}%
+\contentsline {paragraph}{}{5}{section*.3}%
+\contentsline {section}{\numberline {3}Éxperimentations}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Processeur LC-3}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Première implantation de LC3 en Eclat}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Résultats des benchmarks}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Conclusion}{8}{section.4}%
+\contentsline {paragraph}{}{8}{section*.4}%
