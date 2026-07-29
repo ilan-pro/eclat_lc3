@@ -105,15 +105,16 @@ let maj_nzp (res, env) : etat_f =
     }
 ;;
 
+
 (*---------------DECODAGE----------------*)
 let decode_minimalist (env : etat_f) : etat_f = 
     let pc_tmp : short = get_f(env.pc, 0) in
 
     let triplet = reg (fun (state, pc, env) -> 
         match state with 
-        | DECOD() -> (EXE(), pc, env) (*get_start*)
+        | DECOD() -> print_int pc_tmp; get_start(memory, pc) ; (EXE(), pc, env) 
         | EXE() -> 
-            let ir : value = get(memory, pc_tmp) in   (*get_end*)
+            let ir : value = get_end(memory) in
             let env' = 
             (   
                 let env = {env with pc = set_f(env.pc, 0, pc_tmp + 1)} in
@@ -122,76 +123,114 @@ let decode_minimalist (env : etat_f) : etat_f =
                 | Instr instr -> 
                 (
                     match instr with 
-                    | NOT(dst_reg, src_reg) -> 
+                    | NOT(dst_reg, src_reg) ->
+                        print_string "INSTR: NOT"; print_newline();
                         let res = lnot(get_const_p(env.regs, src_reg)) in
-                        let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in 
-                        maj_nzp(res, env_up)
-                    | ADD(dst_reg, sr1, sr2) -> 
-                        let res = get_const_p(env.regs, sr1) + get_const_p(env.regs, sr2) in   
                         let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in
                         maj_nzp(res, env_up)
+
+                    | ADD(dst_reg, sr1, sr2) ->
+                        print_string "INSTR: ADD"; print_newline();
+                        let res = get_const_p(env.regs, sr1) + get_const_p(env.regs, sr2) in
+                        let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in
+                        maj_nzp(res, env_up)
+
                     | ADD_IMM(dst_reg, sr1, imm) ->
-                        let res = (get_const_p(env.regs, sr1) + imm) in
+                        print_string "INSTR: ADD_IMM"; print_newline();
+                        let res = get_const_p(env.regs, sr1) + imm in
                         let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in
                         maj_nzp(res, env_up)
-                    | AND(dst_reg, sr1, sr2) -> 
+
+                    | AND(dst_reg, sr1, sr2) ->
+                        print_string "INSTR: AND"; print_newline();
                         let res = Int.land(get_const_p(env.regs, sr1), get_const_p(env.regs, sr2)) in
                         let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in
                         maj_nzp(res, env_up)
-                    | AND_IMM(dst_reg, sr1, imm) -> 
+
+                    | AND_IMM(dst_reg, sr1, imm) ->
+                        print_string "INSTR: AND_IMM"; print_newline();
                         let res = Int.land(get_const_p(env.regs, sr1), imm) in
                         let env_up = {env with regs = set_f(env.regs, dst_reg, Const(res))} in
                         maj_nzp(res, env_up)
-                    | LEA(dst_reg, offset) -> 
+
+                    | LEA(dst_reg, offset) ->
+                        print_string "INSTR: LEA"; print_newline();
                         {env with regs = set_f(env.regs, dst_reg, Addr(pc_tmp + offset))}
-                    | LD(dst_reg, offset) -> 
+
+                    | LD(dst_reg, offset) ->
                         print_string "INSTR: LD"; print_newline();
                         {env with regs = set_f(env.regs, dst_reg, get(memory, pc_tmp + offset))}
-                    | ST(src_reg, offset) ->    
-                        set(memory, pc_tmp + offset, get_f(env.regs, src_reg));
+
+                    | ST(src_reg, offset) ->
+                        print_string "INSTR: ST"; print_newline();
+                        immediate set(memory, pc_tmp + offset, get_f(env.regs, src_reg));
                         env
-                    | LDR(dst_reg, sr1, offset) -> 
+
+                    | LDR(dst_reg, sr1, offset) ->
+                        print_string "INSTR: LDR"; print_newline();
                         {env with regs = set_f(env.regs, dst_reg, get(memory, get_const_p(env.regs, sr1) + offset))}
-                    | STR(src_reg, sr1, offset) -> 
-                        set(memory, get_const_p(env.regs, sr1) + offset, get_f(env.regs, src_reg));
-                        env 
-                    | LDI(dst_reg, offset) -> 
+
+                    | STR(src_reg, sr1, offset) ->
+                        print_string "INSTR: STR"; print_newline();
+                        immediate set(memory, get_const_p(env.regs, sr1) + offset, get_f(env.regs, src_reg));
+                        env
+
+                    | LDI(dst_reg, offset) ->
+                        print_string "INSTR: LDI"; print_newline();
                         let val_1 = get(memory, pc_tmp + offset) in
-                        let const_mem = get_const(val_1) in 
+                        let const_mem = get_const(val_1) in
                         let val_2 = get(memory, const_mem) in
                         {env with regs = set_f(env.regs, dst_reg, val_2)}
-                    | STI(src_reg, offset) ->   
+
+                    | STI(src_reg, offset) ->
+                        print_string "INSTR: STI"; print_newline();
                         let val_instruction = get(memory, pc_tmp + offset) in
                         let val = get_const(val_instruction) in
-                        set(memory, val, get_f(env.regs, src_reg));
+                        immediate set(memory, val, get_f(env.regs, src_reg));
                         env
-                    | NOP() -> 
+
+                    | NOP() ->
+                        print_string "INSTR: NOP"; print_newline();
                         env
-                    | BR(n, z, p, offset) -> 
-                        if(get_bit(get_f(env.nzp, 0), 0) && get_bit(n, 0)) 
-                            then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
-                        else if(get_bit(get_f(env.nzp, 1), 0) && get_bit(z, 0)) 
-                            then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
-                        else if(get_bit(get_f(env.nzp, 2), 0) && get_bit(p, 0)) 
-                            then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
+
+                    | BR(n, z, p, offset) ->
+                        print_string "INSTR: BR"; print_newline();
+                        if (get_bit(get_f(env.nzp, 0), 0) && get_bit(n, 0))
+                        then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
+                        else if (get_bit(get_f(env.nzp, 1), 0) && get_bit(z, 0))
+                        then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
+                        else if (get_bit(get_f(env.nzp, 2), 0) && get_bit(p, 0))
+                        then {env with pc = set_f(env.pc, 0, pc_tmp + offset)}
                         else env
-                    | JMP src_reg -> 
+
+                    | JMP src_reg ->
+                        print_string "INSTR: JMP"; print_newline();
                         {env with pc = set_f(env.pc, 0, get_const_p(env.regs, src_reg))}
-                    | RET() -> 
+
+                    | RET() ->
+                        print_string "INSTR: RET"; print_newline();
                         {env with pc = set_f(env.pc, 0, get_const_p(env.regs, 7))}
-                    | JSR offset -> 
-                        let cur_pc : short = get_f(env.pc, 0) in 
+
+                    | JSR offset ->
+                        print_string "INSTR: JSR"; print_newline();
+                        let cur_pc : short = get_f(env.pc, 0) in
                         let env_up = {env with regs = set_f(env.regs, 7, Const(cur_pc))} in
-                        let value : short = int_resize<<16>>(pc_tmp) + int_resize<<16>>(offset) in 
+                        let value : short = int_resize<<16>>(pc_tmp) + int_resize<<16>>(offset) in
                         {env_up with pc = set_f(env_up.pc, 0, value)}
-                    | PRINT_REG src_reg -> 
-                        print_int (get_const_p(env.regs, src_reg)); 
+
+                    | PRINT_REG src_reg ->
+                        print_string "INSTR: PRINT_REG"; print_newline();
+                        print_int (get_const_p(env.regs, src_reg));
                         env
-                    | PRINT_STR str -> 
-                        print_string(str); 
+
+                    | PRINT_STR str ->
+                        print_string "INSTR: PRINT_STR"; print_newline();
+                        print_string str;
                         env
-                    | PRINT_LINE() -> 
-                        print_newline(); 
+
+                    | PRINT_LINE() ->
+                        print_string "INSTR: PRINT_LINE"; print_newline();
+                        print_newline();
                         env
                 ) 
                 | Char c -> 
