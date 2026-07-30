@@ -1,4 +1,4 @@
-# Processor LC-3
+# Processeur LC-3
 
 L'idée est simple, nous devons implementé le processeur pédagogique LC-3 dans le langage `Eclat` afin de tester des approches de deux styles de programmation différentes. D'un côté il y a le style impératif et de l'autre le style fonctionnel. 
 

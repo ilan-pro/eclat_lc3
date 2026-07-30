@@ -38,9 +38,7 @@ type instruction = NOT of three_b * three_b
     | PRINT_LINE of unit
     (*
     | JSRR of three_b
-
     | RTI of unit 
-
     | TRAP of pc_offset_8
     *)
 ;;
@@ -394,6 +392,20 @@ let init_env() =
 ;;
  
 (*---------------DECODAGE----------------*)
+
+let maj_nzp(res) = 
+    let _ = 
+        if(res < 0) then(set_n(1))
+        else (set_n(0));
+
+        if(res == 0) then(set_z(1))
+        else (set_z(0));
+
+        if(res > 0) then(set_p(1))
+        else (set_p(0))
+    in ()
+;;
+
 (*
     Fonction qui va décoder toutes les instructions du programme et les exécuter.
     Nous allons beaucoup utiliser des fonctions de la bibliothèqes standard d'Eclat pour nous faciliter.
@@ -416,49 +428,23 @@ let rec decode () : unit =
 
         (match curr_inst with 
         | Instr instr -> 
-            
             print_string("| ");
             print_instruction(instr);
             print_newline();
-            
             (match instr with 
             | NOT(dst_reg, src_reg) -> 
                 (*lnot pour logical not venant de `stdlib`*)
                 let res = lnot(get_reg(src_reg)) in
                 set(registers, dst_reg, Const(res));
-
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in
-
+                maj_nzp(res)
                 debug_reg(dst_reg);
                 debug_nzp()
-
             | ADD(dst_reg, sr1, sr2) -> 
                 let res = get_reg(sr1) + get_reg(sr2) in
                 set(registers, dst_reg, Const(res));
-
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in
-
+                maj_nzp(res)
                 debug_reg(dst_reg);
                 debug_nzp()
-
             | ADD_IMM(dst_reg, sr1, imm) ->
                 (*
                     Attention, sr1 est un registre contenant un entier 16 bits mais
@@ -467,58 +453,22 @@ let rec decode () : unit =
                     standard d'Eclat
                 *)
                 let res = (get_reg(sr1) + imm) in
-                set(registers, dst_reg, Const(res));
-
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in
-
+                set(registers, dst_reg, Const(res)); 
+                maj_nzp(res)
                 debug_reg(dst_reg);
                 debug_nzp()
-
             | AND(dst_reg, sr1, sr2) -> 
                 let res = Int.land(get_reg(sr1), get_reg(sr2)) in
                 set(registers, dst_reg, Const(res));
-
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in
-
+                maj_nzp(res)
                 debug_reg(dst_reg);
                 debug_nzp()
-
             | AND_IMM(dst_reg, sr1, imm) -> 
                 let res = Int.land(get_reg(sr1), imm) in
                 set(registers, dst_reg, Const(res));
-                
-                let _ = 
-                    if(res < 0) then(set_n(1))
-                    else (set_n(0));
-
-                    if(res == 0) then(set_z(1))
-                    else (set_z(0));
-
-                    if(res > 0) then(set_p(1))
-                    else (set_p(0))
-                in
-                
+                maj_nzp(res)
                 debug_reg(dst_reg);
                 debug_nzp()
-
             | LEA(dst_reg, offset) -> 
                 (*
                     Contrairement au LC-3 classique ou l'asm nous permettrait de mettre des noms de labels et il y aurait un travail de fond
@@ -535,27 +485,19 @@ let rec decode () : unit =
                     c.f notion rapport-2
                 *)
                 set(registers, dst_reg, Addr(pc_tmp + offset));
-
                 debug_reg(dst_reg)
-
             | LD(dst_reg, offset) -> 
                 set(registers, dst_reg, get(memory, pc_tmp + offset));
-
                 debug_reg(dst_reg)
-
             | ST(src_reg, offset) ->    
                 set(memory, pc_tmp + offset, get(registers, src_reg));
-
                 (*DEBUG*)
                 print_mem       (pc_tmp + offset);
                 print_reg       (src_reg);
                 print_newline   ()
-
             | LDR(dst_reg, sr1, offset) -> 
                 set(registers, dst_reg, get(memory, get_reg(sr1) + offset));
-
                 debug_reg(dst_reg)
-
             | STR(src_reg, sr1, offset) -> 
                 set(memory, get_reg(sr1) + offset, get(registers, src_reg))
 
@@ -565,15 +507,13 @@ let rec decode () : unit =
                 let const_mem = get_const(val_1) in 
                 let val_2 = get(memory, const_mem) in
                 set(memory, dst_reg, val_2)
-
             (*TODO : PAS TESTÉ*)
             | STI(src_reg, offset) ->   
                 let val_instruction = get(memory, pc_tmp + offset) in
                 let val = get_const(val_instruction) in
                 set(memory, val, get(registers, src_reg))
-
+                
             | NOP() -> ()
-
             | BR(n, z, p, offset) -> 
                 (*
                     !ATTENTION! 
@@ -608,7 +548,6 @@ let rec decode () : unit =
             | PRINT_LINE -> 
                 print_newline()   
             ) 
-
         | Char c -> 
             print_string    ("| [mem "); 
             print_int       (pc_tmp); 
@@ -637,7 +576,6 @@ let rec decode () : unit =
             Bool.print      (b);
             print_string    ("                                                 |");
             print_newline   ()
-
         | _ -> 
             print_string    ("| vide                                                           |"); 
             print_newline   ()
@@ -645,19 +583,6 @@ let rec decode () : unit =
         end_pretty_print();
         decode()
     )
-;;
-
-let maj_nzp(res) = 
-    let _ = 
-        if(res < 0) then(set_n(1))
-        else (set_n(0));
-
-        if(res == 0) then(set_z(1))
-        else (set_z(0));
-
-        if(res > 0) then(set_p(1))
-        else (set_p(0))
-    in ()
 ;;
 
 let rec decode_minimalist () : unit = 
