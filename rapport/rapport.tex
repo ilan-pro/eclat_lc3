@@ -6,11 +6,12 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{fancyhdr}
+\usepackage{pdfpages}
 
 \newcommand{\latex}{\LaTeX}
 
 % -----------page 1-----------
-\title{Programmation FPGA avec Eclat : performances}
+\title{Programmation FPGA avec Eclat : comparaison de style et analyses des performances}
 \author {Dahmane Ilan \\ 
 APR/LIP6 et IRILL   
 }
@@ -108,10 +109,38 @@ les FPGA permettent de configurer après fabrication une architecture matériell
 Cette flexibilité réduit considérablement les coûts et les délais de développement, 
 notamment pour les systèmes nécessitant des évolutions fréquentes ou des productions en volumes limités.
 
-La particularité principale des FPGA réside dans leur capacité de reconfiguration \cite{these_hls}. 
+La particularité principale des FPGA réside dans leur capacité de reconfiguration. 
 Ils permettent d'exploiter un parallélisme spatial en instanciant directement plusieurs unités de calcul matérielles.
 Cette caractéristique en fait des accélérateurs matériels particulièrement adaptés à certaines applications industrielles nécessitant de fortes performances, 
 comme le traitement du signal, l'intelligence artificielle, le calcul scientifique ou encore les systèmes embarqués temps réel.
+
+Les FPGA sont composés de bloc logique reprogrammable permettant cette forte modularité, (voir Figure~\ref{fig:fpga_schema}).
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/fpga_schema.png}
+    \caption{Schéma d'un FPGA : Intel DE-10 lite}
+    \label{fig:fpga_schema}
+\end{figure}
+
+Dans le coeur d'une puce FPGA se trouve les blocs logique reprogrammable (voir Figure~\ref{fig:logic_elem}), qui permet toute l'intérêt suscité par ces cartes. Elles sont composé d'une ou plusieurs 
+LUT\footnote{Look-Up Tables : une petite mémoire permettant de réaliser n'importe quelle fonction logique de quelques entrées.} ainsi qu'un registre qui permet de sauvegarder les 
+états entre chaque cycle d'horloge, sans cela, le circuit serait purement combinatoire. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/logic_elem.png}
+    \caption{Structure d’un élément logique avec additionneur intégré}
+    \label{fig:logic_elem}
+\end{figure}
+
+Plusieurs notions seront utile pour comprendre l'analyse des benchmarks. Nous commencons avec l'horloge et ses notions associés. Un cycle permet de faire passer l'éléctricité dans 
+tout le circuit de la puce, accompagné de cela, il y a aussi les front d'horloge qui permettent de mettre à jour toutes les entrées/sorties (registres) du circuit après un cycle. 
+
+Toutes puces éléctronique possède une fréquence. Celle de la carte DE-10 lite est de 50MHz, cela signifie que la carte peut exécuter 50 millions de cycles par secondes et donc chaque
+cycle dure 20ns (1/fréquence). Le circuit va donc se mettre à jour 50 millions de fois par seconde.
+
+Un programme peut être aussi mesuré par son rapport entre la fréquence sur la carte sur laquelle il tourne et le nombre de cycle dont il à besoin pour finir. Prenons un programme
+A qui prend 5000 cycles avec une fréquence de 50MHz, le programme mettra donc 500 chronosecondes à s'exécuter (500/fréquence).
+
 
 Cependant, l'exploitation de ces architectures nécessite traditionnellement l'utilisation de langages de description matérielle (HDL), tels que le VHDL ou le Verilog. 
 Contrairement aux langages de programmation classiques, ces langages ne décrivent pas une succession d'instructions exécutées par un processeur, 
@@ -121,7 +150,7 @@ nécessite des connaissances spécifiques en conception numérique.
 L'objectif est donc de proposer des outils permettant de rapprocher la programmation FPGA des méthodes utilisées en programmation logicielle classique, 
 tout en conservant un contrôle suffisant sur l'architecture générée.. 
 
-Un des exemples les plus connus est HLS (High-level Synthesis) afin de se concentrer sur l'aspect algorithmique et n'ont pas sur l'architecture du circuit. 
+Un des exemples les plus connus est HLS (High-level Synthesis)\cite{these_hls} afin de se concentrer sur l'aspect algorithmique et n'ont pas sur l'architecture du circuit. 
 Nous pouvons notamment écrire dans un sous ensemble de C/C++ (pointeur et allocation dynamique parfois exclus) afin que l'outil de synthèse de haut niveau 
 parse votre programme et le synthétise en HDL. 
 Mais cette approche à une limite. Le contrôle de l'architecture par le concepteur du programme est grandement limité et est délégué à l'outil de synthèse (le parallélisme
@@ -138,7 +167,7 @@ les programmes écrits dans ce langage en une description matérielle VHDL synth
 \subsection{Processeur LC-3}
 Pour répondre à notre question, nous allons reprendre un ancien projet de mon premier semestre de master. Ce projet portait sur la réalisation d'un 
 processeur à but éducatif nommé LC-3. C'est un processeur très rudimentaire, comprenant d'environ 15 instructions de base. Ces dernières se décomposent 
-en trois familles : : les instructions arithmétiques et logiques, les instructions de chargement et rangement et les instructions de 
+en trois familles : les instructions arithmétiques et logiques, les instructions de chargement et rangement et les instructions de 
 branchement (appelées aussi instructions de saut ou encore instructions de contrôle).
 
 Les instructions arithmétiques et logiques du LC-3 sont au nombre de trois. Le LC-3 possède une
@@ -169,16 +198,17 @@ de branchement conditionnel BR pour savoir si le branchement doit être pris ou 
 
 La mémoire du LC-3 est organisée par mots de 16 bits. L’adressage du LC-3 est également de 16 bits.
 La mémoire du LC-3 est donc formée de 216 mots de 16 bits, c’est-à-dire 128 KiB avec des adresses
-de 0000 à FFFF en hexadécimal. (insérer image ?)
+de \texttt{0x0000} à \texttt{0XFFFF} (voir Figure~\ref{fig:memory_lc3}).
 
-\subsection{Première implantation de LC3 en Eclat}
+\subsection{Première implémentation de LC3 en Eclat}
 Pour la première implémentation en Eclat du processeur, j'ai choisi de privilégier une approche impérative, 
 plus proche des langages de programmation classiques et plus pédagogique pour prendre en main Eclat. 
 Les registres ainsi que la mémoire ont été représentés par des tableaux, qui constituent la principale structure de données mutable du langage. 
 Les modifications sont effectuées en place, c'est-à-dire par réécriture directe des cases mémoire concernées, 
 sans recopier l'ensemble de la structure. Le tableau représentant la mémoire contient des valeurs du type somme value, 
 capable de représenter les différents éléments susceptibles d'être stockés en mémoire, tels qu'une instruction, une adresse, 
-un caractère ou une constante. Cette première implémentation est visible en annexe. 
+un caractère ou une constante. Cette première implémentation est visible en annexe (le sera bientôt...). 
+Plusieurs problèmes se sont posés durant l'implémentations de ce premier processeur. 
 
 \subsection{Résultats des benchmarks}
 J'ai commencé par allumer simultannémament un paquet de leds 
@@ -207,8 +237,29 @@ tandis que les vecteurs sont des suites de blocs logiques programmables ce qui l
 nombre d'entiers 32 bits, plus clair)
 hypothétique en attendant de finir les benchmarks et donc la conclusion.....
 
-\newpage
 
+
+\newpage
 \bibliographystyle{unsrt}     
 \bibliography{bibliographie}
+
+% DÉBUT ANNEXE 
+\newpage
+\appendix
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/memory_lc3.png}
+    \caption{Représentation de la mémoire LC-3}
+    \label{fig:memory_lc3}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/instructions_lc3.png}
+    \caption{Ensemble du jeu d'instruction du LC-3 (ps : les * indiquent si l'instruction mets à jour les flags NZP)}
+    \label{fig:instructions_lc3}
+\end{figure}
+
+
 \end{document}
