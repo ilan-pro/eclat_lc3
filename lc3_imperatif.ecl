@@ -436,13 +436,13 @@ let rec decode () : unit =
                 (*lnot pour logical not venant de `stdlib`*)
                 let res = lnot(get_reg(src_reg)) in
                 set(registers, dst_reg, Const(res));
-                maj_nzp(res)
+                maj_nzp(res);
                 debug_reg(dst_reg);
                 debug_nzp()
             | ADD(dst_reg, sr1, sr2) -> 
                 let res = get_reg(sr1) + get_reg(sr2) in
                 set(registers, dst_reg, Const(res));
-                maj_nzp(res)
+                maj_nzp(res);
                 debug_reg(dst_reg);
                 debug_nzp()
             | ADD_IMM(dst_reg, sr1, imm) ->
@@ -454,19 +454,19 @@ let rec decode () : unit =
                 *)
                 let res = (get_reg(sr1) + imm) in
                 set(registers, dst_reg, Const(res)); 
-                maj_nzp(res)
+                maj_nzp(res);
                 debug_reg(dst_reg);
                 debug_nzp()
             | AND(dst_reg, sr1, sr2) -> 
                 let res = Int.land(get_reg(sr1), get_reg(sr2)) in
                 set(registers, dst_reg, Const(res));
-                maj_nzp(res)
+                maj_nzp(res);
                 debug_reg(dst_reg);
                 debug_nzp()
             | AND_IMM(dst_reg, sr1, imm) -> 
                 let res = Int.land(get_reg(sr1), imm) in
                 set(registers, dst_reg, Const(res));
-                maj_nzp(res)
+                maj_nzp(res);
                 debug_reg(dst_reg);
                 debug_nzp()
             | LEA(dst_reg, offset) -> 

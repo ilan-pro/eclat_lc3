@@ -50,7 +50,7 @@ type etat_f = {
 
 type state = DECOD of unit | EXE of unit;;
 
-let memory : value array<1000> = create<1000>();;
+let memory : value array<502> = create<502>();;
 
 (*---------------ACCESSEURS----------------*)
 let get_f (n, i) = vect_nth(n, int_resize<<32>>(i));;
@@ -100,7 +100,7 @@ let decode_minimalist (env : etat_f) : etat_f =
         | EXE() -> 
             let ir : value = get_end(memory) in
             let env' = 
-            (   
+            (       
                 let env = {env with pc = set_f(env.pc, 0, pc_arg + 1)} in
                 
                 match ir with 
@@ -230,7 +230,7 @@ let decode_minimalist (env : etat_f) : etat_f =
                     print_string    ("                                                 |");
                     print_newline   ();
                     env
-                | _ -> print_string("incohérence rencontré"); print_newline(); env
+                | _ -> env
             ) in (DECOD(), get_f(env'.pc, 0), env')    
     ) init (DECOD(), pc_tmp, env) 
     in env'
@@ -266,7 +266,7 @@ let main() =
                                 set(memory, 17, Instr(STR(0, 6, 1)));         (*arg1 <- 1*)
                                 set(memory, 18, Instr(JSR(19)));              (*hanoi(3, 1, 3)*)
                                 set(memory, 19, Instr(ADD_IMM(6, 6, 3)));     (*pop arg0, arg1, arg2*)
-                                set(memory, 21, Instr(BR(1, 1, 1, 1000)));      
+                                set(memory, 21, Instr(BR(1, 1, 1, 502)));      
                                 (*Fonction mvt(src, dst)*)
                                 set(memory, 22, Instr(ADD_IMM(6, 6, -3)));
                                 set(memory, 23, Instr(STR(0, 6, 0)));
@@ -323,7 +323,18 @@ let main() =
     in 
     if (loading_done) then 
         let compteur = chrono() in 
-        let state = reg decode_minimalist init initial_state_f in ()
+        let state = reg decode_minimalist init initial_state_f in 
+        if get_f(state.pc, 0) >= int_resize<<16>>(length(memory))
+        then (      
+                print_string "+-------------+";
+                print_newline();
+                print_string "| compteur=";
+                print_int compteur;
+                print_string " |";
+                print_newline();
+                print_string "+-------------+";
+                print_newline()
+            )
         (*
         if get_f(state.pc, 0) >= int_resize<<16>>(length(memory))
             then vect_make<<10>>(false) 
