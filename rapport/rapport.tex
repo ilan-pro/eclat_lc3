@@ -122,7 +122,7 @@ Les FPGA sont composés de bloc logique reprogrammable permettant cette forte mo
     \label{fig:fpga_schema}
 \end{figure}
 
-Dans le coeur d'une puce FPGA se trouve les blocs logique reprogrammable (voir Figure~\ref{fig:logic_elem}), qui permet toute l'intérêt suscité par ces cartes. Elles sont composé d'une ou plusieurs 
+Dans le coeur d'une puce FPGA se trouvent les blocs logiques reprogrammables (voir Figure~\ref{fig:logic_elem}), qui constituent l'un des principaux intérêts de ces cartes. Elles sont composé d'une ou plusieurs 
 LUT\footnote{Look-Up Tables : une petite mémoire permettant de réaliser n'importe quelle fonction logique de quelques entrées.} ainsi qu'un registre qui permet de sauvegarder les 
 états entre chaque cycle d'horloge, sans cela, le circuit serait purement combinatoire. 
 \begin{figure}[h]
@@ -141,7 +141,6 @@ cycle dure 20ns (1/fréquence). Le circuit va donc se mettre à jour 50 millions
 Un programme peut être aussi mesuré par son rapport entre la fréquence sur la carte sur laquelle il tourne et le nombre de cycle dont il à besoin pour finir. Prenons un programme
 A qui prend 5000 cycles avec une fréquence de 50MHz, le programme mettra donc 500 chronosecondes à s'exécuter (500/fréquence).
 
-
 Cependant, l'exploitation de ces architectures nécessite traditionnellement l'utilisation de langages de description matérielle (HDL), tels que le VHDL ou le Verilog. 
 Contrairement aux langages de programmation classiques, ces langages ne décrivent pas une succession d'instructions exécutées par un processeur, 
 mais une architecture matérielle composée de composants logiques fonctionnant potentiellement en parallèle. 
@@ -159,7 +158,6 @@ est inférer etc... creuser un peu plus).
 C'est dans cette perspective que s'inscrit Eclat. Ce langage propose un paradigme de programmation plus proche des langages logiciels traditionnels (OCaml-like) 
 tout en conservant la possibilité de générer une architecture matérielle efficace. Le compilateur Eclat permet ainsi de traduire 
 les programmes écrits dans ce langage en une description matérielle VHDL synthétisable, pouvant ensuite être implémentée sur un FPGA.
-
 
 % -----------page 5-----------
 \newpage
@@ -197,7 +195,7 @@ nouvelle valeur est négative (n), nulle (z) et positive (p). Ces indicateurs so
 de branchement conditionnel BR pour savoir si le branchement doit être pris ou non.
 
 La mémoire du LC-3 est organisée par mots de 16 bits. L’adressage du LC-3 est également de 16 bits.
-La mémoire du LC-3 est donc formée de 216 mots de 16 bits, c’est-à-dire 128 KiB avec des adresses
+La mémoire du LC-3 est donc formée de $2^{16}$ mots de 16 bits, c’est-à-dire 128 KiB avec des adresses
 de \texttt{0x0000} à \texttt{0XFFFF} (voir Figure~\ref{fig:memory_lc3}).
 
 \subsection{Première implémentation de LC3 en Eclat}
@@ -211,11 +209,11 @@ un caractère ou une constante. Cette première implémentation est visible en a
 Plusieurs problèmes se sont posés durant l'implémentations de ce premier processeur. 
 
 \subsection{Résultats des benchmarks}
-J'ai commencé par allumer simultannémament un paquet de leds 
+J'ai commencé par allumer un paquet de leds en fonctions des boutons poussoirs. un boutons allume un paquet de 5 leds. 
 afin de comprendre la chaîne de compilation d'un langage de description matériel jusqu'à la production du .sof qui décrit le circuit et permet de flash sur la carte
-le circuit synthétiser par eclat.
+le circuit synthétiser par eclat. Pour cette première expérimentation, le nombre d'éléments logique est de 1 (sur les 49760 disponibles)
 
-- Parler du nombre de bloc logique utilisé pour les deux synthèse
+- Parler du nombre de bloc logique utilisé pour les deux synthèses
 - Parler du temps en cycle 
 - Parler de la facilité d'écriture 
 - Insérer des benchs avec un programme équivalent mais synthétisé avec la vm OCaml en Eclat

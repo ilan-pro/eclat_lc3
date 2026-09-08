@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  30 JUL 2026 12:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  8 SEP 2026 10:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -475,15 +475,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [10] (./rapport.bbl)
 
 [11]
-<images/memory_lc3.png, id=123, 315.1775pt x 389.455pt>
+<images/memory_lc3.png, id=125, 315.1775pt x 389.455pt>
 File: images/memory_lc3.png Graphic file (type png)
 <use images/memory_lc3.png>
-Package pdftex.def Info: images/memory_lc3.png  used on input line 252.
+Package pdftex.def Info: images/memory_lc3.png  used on input line 250.
 (pdftex.def)             Requested size: 276.00105pt x 341.06346pt.
-<images/instructions_lc3.png, id=124, 681.54625pt x 816.04875pt>
+<images/instructions_lc3.png, id=126, 681.54625pt x 816.04875pt>
 File: images/instructions_lc3.png Graphic file (type png)
 <use images/instructions_lc3.png>
-Package pdftex.def Info: images/instructions_lc3.png  used on input line 259.
+Package pdftex.def Info: images/instructions_lc3.png  used on input line 257.
 (pdftex.def)             Requested size: 276.00105pt x 330.47304pt.
 
 
@@ -499,7 +499,7 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: D0158F29A2EB2FB0DCAAD27FEB00912C;1057.
+(rerunfilecheck)             Checksum: 1FE0DF9E28B3362AD63E9803F0102661;1070.
  ) 
 Here is how much of TeX's memory you used:
  13724 strings out of 474662
@@ -508,7 +508,7 @@ Here is how much of TeX's memory you used:
  36571 multiletter control sequences out of 15000+600000
  570167 words of font info for 57 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,7n,79p,307b,456s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,7n,79p,320b,456s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{cite.sentieys\\penalty\040\\@M\040\040:hal-00716772
 } has been referenced but does not exist, replaced by a fixed one
@@ -525,11 +525,14 @@ ilan/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.6
 jfour/jknappen/ec/ecrm1000.600pk> </Users/ilan/Library/texlive/2025basic/texmf-
 var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </Users/ilan/Library/texlive/20
 25basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </Users/ilan/Libr
-ary/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk>
-Output written on rapport.pdf (13 pages, 2240839 bytes).
+ary/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></us
+r/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+/usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
+>
+Output written on rapport.pdf (13 pages, 2257591 bytes).
 PDF statistics:
- 487 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
+ 497 PDF objects out of 1000 (max. 8388607)
+ 164 compressed objects within 2 object streams
  36 named destinations out of 1000 (max. 500000)
  77 words of extra memory for PDF output out of 10000 (max. 10000000)
 

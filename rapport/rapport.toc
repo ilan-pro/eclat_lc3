@@ -5,7 +5,7 @@
 \contentsline {paragraph}{}{5}{section*.3}%
 \contentsline {section}{\numberline {3}Éxperimentations}{8}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Processeur LC-3}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Première implantation de LC3 en Eclat}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.2}Première implémentation de LC3 en Eclat}{9}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Résultats des benchmarks}{9}{subsection.3.3}%
 \contentsline {section}{\numberline {4}Conclusion}{10}{section.4}%
 \contentsline {paragraph}{}{10}{section*.4}%
