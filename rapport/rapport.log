@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  8 SEP 2026 10:53
+=======
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  15 SEP 2026 12:23
+>>>>>>> Stashed changes
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -454,7 +458,11 @@ Package pdftex.def Info: images/fpga_schema.png  used on input line 120.
 <images/logic_elem.png, id=76, 505.89pt x 202.7575pt>
 File: images/logic_elem.png Graphic file (type png)
 <use images/logic_elem.png>
+<<<<<<< Updated upstream
 Package pdftex.def Info: images/logic_elem.png  used on input line 130.
+=======
+Package pdftex.def Info: images/logic_elem.png  used on input line 132.
+>>>>>>> Stashed changes
 (pdftex.def)             Requested size: 276.00105pt x 110.61975pt.
 
 
@@ -469,6 +477,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [7]
 
 [8]
+<<<<<<< Updated upstream
 
 [9]
 
@@ -484,6 +493,43 @@ Package pdftex.def Info: images/memory_lc3.png  used on input line 250.
 File: images/instructions_lc3.png Graphic file (type png)
 <use images/instructions_lc3.png>
 Package pdftex.def Info: images/instructions_lc3.png  used on input line 257.
+=======
+Underfull \hbox (badness 10000) in paragraph at lines 228--235
+
+ []
+
+
+
+[9]
+<images/performance_cycles.png, id=118, 455.301pt x 339.9099pt>
+File: images/performance_cycles.png Graphic file (type png)
+<use images/performance_cycles.png>
+Package pdftex.def Info: images/performance_cycles.png  used on input line 289.
+
+(pdftex.def)             Requested size: 276.00105pt x 206.05844pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[10]
+
+[11 <./images/performance_cycles.png>]
+
+[12] (./rapport.bbl)
+
+[13]
+<images/memory_lc3.png, id=142, 315.1775pt x 389.455pt>
+File: images/memory_lc3.png Graphic file (type png)
+<use images/memory_lc3.png>
+Package pdftex.def Info: images/memory_lc3.png  used on input line 373.
+(pdftex.def)             Requested size: 276.00105pt x 341.06346pt.
+<images/instructions_lc3.png, id=143, 681.54625pt x 816.04875pt>
+File: images/instructions_lc3.png Graphic file (type png)
+<use images/instructions_lc3.png>
+Package pdftex.def Info: images/instructions_lc3.png  used on input line 380.
+>>>>>>> Stashed changes
 (pdftex.def)             Requested size: 276.00105pt x 330.47304pt.
 
 
@@ -491,14 +537,21 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
+<<<<<<< Updated upstream
 [12 <./images/memory_lc3.png>]
 
 [13 <./images/instructions_lc3.png>] (./rapport.aux)
+=======
+[14 <./images/memory_lc3.png>]
+
+[15 <./images/instructions_lc3.png>] (./rapport.aux)
+>>>>>>> Stashed changes
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
+<<<<<<< Updated upstream
 (rerunfilecheck)             Checksum: 1FE0DF9E28B3362AD63E9803F0102661;1070.
  ) 
 Here is how much of TeX's memory you used:
@@ -509,6 +562,18 @@ Here is how much of TeX's memory you used:
  570167 words of font info for 57 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  75i,7n,79p,320b,456s stack positions out of 10000i,1000n,20000p,200000b,200000s
+=======
+(rerunfilecheck)             Checksum: 1A209B1B082B989AC0D257374609460A;1019.
+ ) 
+Here is how much of TeX's memory you used:
+ 14000 strings out of 474662
+ 222542 string characters out of 5751109
+ 634730 words of memory out of 5000000
+ 36839 multiletter control sequences out of 15000+600000
+ 570167 words of font info for 57 fonts, out of 8000000 for 9000
+ 319 hyphenation exceptions out of 8191
+ 75i,7n,79p,269b,985s stack positions out of 10000i,1000n,20000p,200000b,200000s
+>>>>>>> Stashed changes
 
 pdfTeX warning (dest): name{cite.sentieys\\penalty\040\\@M\040\040:hal-00716772
 } has been referenced but does not exist, replaced by a fixed one
@@ -529,10 +594,19 @@ ary/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></us
 r/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
 /usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 >
+<<<<<<< Updated upstream
 Output written on rapport.pdf (13 pages, 2257591 bytes).
 PDF statistics:
  497 PDF objects out of 1000 (max. 8388607)
  164 compressed objects within 2 object streams
  36 named destinations out of 1000 (max. 500000)
  77 words of extra memory for PDF output out of 10000 (max. 10000000)
+=======
+Output written on rapport.pdf (15 pages, 2331892 bytes).
+PDF statistics:
+ 538 PDF objects out of 1000 (max. 8388607)
+ 180 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 82 words of extra memory for PDF output out of 10000 (max. 10000000)
+>>>>>>> Stashed changes
 
