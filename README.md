@@ -1,22 +1,37 @@
 # Processeur LC-3
 
-L'idée est simple, nous devons implementé le processeur pédagogique LC-3 dans le langage `Eclat` afin de tester des approches de deux styles de programmation différentes. D'un côté il y a le style impératif et de l'autre le style fonctionnel. 
+L'objectif de ce projet est d'implémenter le processeur pédagogique LC-3 en langage `Éclat`, afin de comparer deux styles de programmation : **impératif et fonctionnel**.
 
-## Choix d'implémentation de la mémoire 
-J'ai choisi de faire une mémoire séparé du programme principal pour des choix de lisibilité au niveau des matchs. Faire trop de match rendrais le code illisible. La mémoire est simplement de type value. 
+## Choix d'implémentation de la mémoire
 
-Pour ce qui est des opérations sur les registres, des directions restent à explorer. Pour le moment, je ne fais d'opération arithmétique uniquement sur les constante contenu dans les registres (je ne prends pas en compte l'adresse et les autres types de valeur). Dans le LC-3 classique, les opérations se ferait peu importe ce que le registre contient (aucune disinction faite). 
+La mémoire a été séparée du programme principal afin de préserver la lisibilité du code, notamment dans la gestion des différents cas d'instructions (`match`). Une multiplication des expressions `match` rendrait en effet le code plus difficile à lire et à maintenir.
 
-Contrairement à ce qui est indiquer dans le polycopié, les opérations qui de chargement et de moficiation de la mémoire n'utilise plus `PC` car cette variable est réservée pour la variable `prog` (qui n'est pas dans la mémoire, il faut faire la distinction).
+La mémoire est simplement représentée par une valeur de type `value`.
 
-ATTENTION : certaines instructions conservent cet incrément avec `PC`. Par exemple.
+Concernant les opérations sur les registres, plusieurs pistes restent à explorer. Pour le moment, les opérations arithmétiques ne prennent en compte que les constantes stockées dans les registres. Les adresses et les autres types de valeurs ne sont donc pas encore traités. Dans le LC-3 classique, les opérations s'effectuent sur le contenu binaire des registres, sans distinction de type.
 
-## Imperatif style vs fonctionnel
-- `Impératif` : Accès sur le partage de variable en mémoire sans (jamais) avoir le besoin de copier. Cela permet, pour de gros programme, de ne pas prendre toute la place mémoire. 
-- `Fonctionnel` : Accès sur la partage de référence. Consommation mémoire bien plus importante mais plus performant pour ce qui est du parallélisme et autre notion.
+Contrairement à ce qui est indiqué dans le polycopié, les instructions de chargement et de modification de la mémoire n'utilisent plus `PC`. Cette variable est réservée au pointeur vers le programme `prog`, qui n'est pas stocké dans la mémoire du processeur. Il est donc important de distinguer ces deux éléments.
 
-Globalement, le style impératif est apprecié dans le cas de programme lourd tandis que le style fonctionnel est appréciable quand nous cherchons le gain de performance étant donné qu'il sera bien plus naturel pour la programmation parallélisé.
-Dans le cadre du langage `Eclat`, la programmation impérative impose certaines contraintes de cycle d'horloge qui amoindrit la performance global du programme. Les accès aux structures de donnée impératives (comme les arrays) sont garantit de prendre 1 cycle par accès (E/S) du à la présence de verrou. Aux antipodes des sutrctures de donnée fonctionnel, qui sont accessibles de manière immédiate. Il y a des pour et des contres pour les deux approches. Les critères se portent aussi sur la simplicité à écrire du code dans les deux cas.
+**Attention :** certaines instructions conservent néanmoins l'incrémentation du `PC`, conformément à leur fonctionnement.
+
+## Style impératif vs style fonctionnel
+
+- **Impératif :** repose sur la modification directe de l'état partagé en mémoire, sans nécessiter de copies systématiques des données. Cette approche peut limiter la consommation mémoire, notamment pour les programmes manipulant de grandes quantités de données.
+
+- **Fonctionnel :** privilégie le partage de références et la manipulation de valeurs plutôt que la modification directe d'un état partagé. Cette approche peut entraîner une consommation mémoire plus importante, mais facilite certaines formes de parallélisation.
+
+Globalement, le style impératif peut être intéressant pour limiter les copies et la consommation mémoire, tandis que le style fonctionnel peut favoriser la parallélisation et les performances dans certains contextes.
+
+Dans le langage `Éclat`, la programmation impérative impose certaines contraintes liées aux cycles d'horloge, susceptibles de réduire les performances globales du programme. Les accès aux structures de données impératives, comme les tableaux (`arrays`), sont garantis de prendre un cycle par accès en lecture ou en écriture, en raison de la présence de mécanismes de verrouillage.
+
+À l'inverse, les structures de données fonctionnelles sont accessibles de manière immédiate.
+
+Les deux approches présentent donc des avantages et des inconvénients. La comparaison portera notamment sur les performances, la consommation mémoire, les possibilités de parallélisation et la simplicité d'écriture du code.
 
 ## Jeux de test dans le dossier `test`
-Il suffit de mettre le code correspondant dans la fonction qui initialise l'environnement dans les implémentations LC-3 choisit. Normalement, les indices sont correcte. (Un possible parseur verra le jour dans les jours qui suivent pour écrire en LC-3 et ne pas à avoir à se soucier de la translation du programme en Eclat).
+
+Pour exécuter un jeu de test, il suffit d'intégrer le code correspondant dans la fonction d'initialisation de l'environnement de l'implémentation LC-3 choisie.
+
+Les indices utilisés dans les programmes de test sont normalement corrects.
+
+À terme, un parseur pourra être développé pour permettre l'écriture directe de programmes en assembleur LC-3, sans avoir à traduire manuellement les instructions en code `Éclat`.

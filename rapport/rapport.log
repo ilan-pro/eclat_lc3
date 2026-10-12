@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  8 SEP 2026 10:53
-=======
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  15 SEP 2026 12:23
->>>>>>> Stashed changes
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.20)  15 SEP 2026 18:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -346,48 +342,56 @@ File: pppdftex.def 2025/01/30 v0.6e Pdfpages driver for pdfTeX (AM)
 \c@AM@survey=\count304
 \AM@templatesizebox=\box55
 )
+(/usr/local/texlive/2025basic/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count305
+\float@exts=\toks24
+\float@box=\box56
+\@float@everytoks=\toks25
+\@floatcapt=\box57
+)
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
 ef
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count305
-\l__pdf_internal_box=\box56
+\l__color_backend_stack_int=\count306
+\l__pdf_internal_box=\box58
 ) (./rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Info: Redefining \degres on input line 20.
-LaTeX Info: Redefining \up on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Info: Redefining \degres on input line 33.
+LaTeX Info: Redefining \up on input line 33.
 
 (/usr/local/texlive/2025basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count306
+\scratchcounter=\count307
 \scratchdimen=\dimen169
-\scratchbox=\box57
-\nofMPsegments=\count307
-\nofMParguments=\count308
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count309
+\scratchbox=\box59
+\nofMPsegments=\count308
+\nofMParguments=\count309
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count310
 \MPscratchDim=\dimen170
-\MPnumerator=\count310
-\makeMPintoPDFobject=\count311
-\everyMPtoPDFconversion=\toks25
+\MPnumerator=\count311
+\makeMPintoPDFobject=\count312
+\everyMPtoPDFconversion=\toks27
 )
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.s
 ty
@@ -399,12 +403,12 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 20.
+Package hyperref Info: Link coloring OFF on input line 33.
  (./rapport.out) (./rapport.out)
 \@outlinefile=\write3
 \openout3 = `rapport.out'.
 
-\c@lstlisting=\count312
+\c@lstlisting=\count313
 
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
@@ -419,50 +423,80 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 22.
+(Font)              <12> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 22.
+(Font)              <8> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 22.
+(Font)              <6> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 30.
+(Font)              <7> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 30.
+(Font)              <5> on input line 43.
 
 
+<images/paris.png, id=32, 447.6725pt x 170.6375pt>
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 53.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+<images/logo_sorbonne.png, id=34, 963.6pt x 963.6pt>
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 53.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [1
 
-{/usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./rapport.toc)
+{/usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./
+images/paris.png> <./images/logo_sorbonne.png>] (./rapport.toc)
 \tf@toc=\write4
 \openout4 = `rapport.toc'.
 
 
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 59.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 59.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [2]
-Overfull \hbox (7.91382pt too wide) in paragraph at lines 48--53
+Overfull \hbox (7.91382pt too wide) in paragraph at lines 61--66
 \T1/cmr/m/n/10 de-puis plu-sieurs dé-cen-nies la so-lu-tion do-mi-nante pour l'
 exé-cu-tion des pro-grammes.
  []
 
 
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 115.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 115.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [3]
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 117.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 117.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [4]
-<images/fpga_schema.png, id=72, 580.1675pt x 382.42876pt>
+<images/fpga_schema.png, id=77, 580.1675pt x 382.42876pt>
 File: images/fpga_schema.png Graphic file (type png)
 <use images/fpga_schema.png>
-Package pdftex.def Info: images/fpga_schema.png  used on input line 120.
+Package pdftex.def Info: images/fpga_schema.png  used on input line 133.
 (pdftex.def)             Requested size: 276.00105pt x 181.9298pt.
-<images/logic_elem.png, id=76, 505.89pt x 202.7575pt>
+<images/logic_elem.png, id=80, 505.89pt x 202.7575pt>
 File: images/logic_elem.png Graphic file (type png)
 <use images/logic_elem.png>
-<<<<<<< Updated upstream
-Package pdftex.def Info: images/logic_elem.png  used on input line 130.
-=======
-Package pdftex.def Info: images/logic_elem.png  used on input line 132.
->>>>>>> Stashed changes
+Package pdftex.def Info: images/logic_elem.png  used on input line 145.
 (pdftex.def)             Requested size: 276.00105pt x 110.61975pt.
 
 
@@ -470,41 +504,77 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[5 <./images/fpga_schema.png>]
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 156.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 156.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[5
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.156 
+       <./images/fpga_schema.png>]
 
-[6 <./images/logic_elem.png>]
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 174.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 174.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[6
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.174 C
+       'est dans cette perspective que s'inscrit Eclat. Ce langage propose u...
+ <./images/logic_elem.png>]
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 179.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 179.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [7]
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 230.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 230.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [8]
-<<<<<<< Updated upstream
-
-[9]
-
-[10] (./rapport.bbl)
-
-[11]
-<images/memory_lc3.png, id=125, 315.1775pt x 389.455pt>
-File: images/memory_lc3.png Graphic file (type png)
-<use images/memory_lc3.png>
-Package pdftex.def Info: images/memory_lc3.png  used on input line 250.
-(pdftex.def)             Requested size: 276.00105pt x 341.06346pt.
-<images/instructions_lc3.png, id=126, 681.54625pt x 816.04875pt>
-File: images/instructions_lc3.png Graphic file (type png)
-<use images/instructions_lc3.png>
-Package pdftex.def Info: images/instructions_lc3.png  used on input line 257.
-=======
-Underfull \hbox (badness 10000) in paragraph at lines 228--235
+Underfull \hbox (badness 10000) in paragraph at lines 237--244
 
  []
 
 
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 255.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 255.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [9]
-<images/performance_cycles.png, id=118, 455.301pt x 339.9099pt>
+<images/performance_cycles.png, id=122, 455.301pt x 339.9099pt>
 File: images/performance_cycles.png Graphic file (type png)
 <use images/performance_cycles.png>
-Package pdftex.def Info: images/performance_cycles.png  used on input line 289.
+Package pdftex.def Info: images/performance_cycles.png  used on input line 300.
 
 (pdftex.def)             Requested size: 276.00105pt x 206.05844pt.
 
@@ -513,23 +583,86 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 324.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 324.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
 [10]
+<images/performance_time.png, id=127, 455.5419pt x 340.1508pt>
+File: images/performance_time.png Graphic file (type png)
+<use images/performance_time.png>
+Package pdftex.def Info: images/performance_time.png  used on input line 346.
+(pdftex.def)             Requested size: 276.00105pt x 206.0903pt.
 
-[11 <./images/performance_cycles.png>]
 
-[12] (./rapport.bbl)
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13]
-<images/memory_lc3.png, id=142, 315.1775pt x 389.455pt>
+
+
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 353.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 353.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[11
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.353 \newpage
+               <./images/performance_cycles.png>]
+
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 362.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 362.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[12
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.362 
+       <./images/performance_time.png>]
+
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 371.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 371.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[13] (./rapport.bbl)
+
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 376.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 376.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[14]
+<images/memory_lc3.png, id=152, 315.1775pt x 389.455pt>
 File: images/memory_lc3.png Graphic file (type png)
 <use images/memory_lc3.png>
-Package pdftex.def Info: images/memory_lc3.png  used on input line 373.
+Package pdftex.def Info: images/memory_lc3.png  used on input line 381.
 (pdftex.def)             Requested size: 276.00105pt x 341.06346pt.
-<images/instructions_lc3.png, id=143, 681.54625pt x 816.04875pt>
+<images/instructions_lc3.png, id=153, 681.54625pt x 816.04875pt>
 File: images/instructions_lc3.png Graphic file (type png)
 <use images/instructions_lc3.png>
-Package pdftex.def Info: images/instructions_lc3.png  used on input line 380.
->>>>>>> Stashed changes
+Package pdftex.def Info: images/instructions_lc3.png  used on input line 388.
 (pdftex.def)             Requested size: 276.00105pt x 330.47304pt.
 
 
@@ -537,43 +670,52 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-<<<<<<< Updated upstream
-[12 <./images/memory_lc3.png>]
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 394.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 394.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[15
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.394 \end{document}
+                     <./images/memory_lc3.png>]
 
-[13 <./images/instructions_lc3.png>] (./rapport.aux)
-=======
-[14 <./images/memory_lc3.png>]
-
-[15 <./images/instructions_lc3.png>] (./rapport.aux)
->>>>>>> Stashed changes
+File: images/paris.png Graphic file (type png)
+<use images/paris.png>
+Package pdftex.def Info: images/paris.png  used on input line 394.
+(pdftex.def)             Requested size: 113.81102pt x 43.3805pt.
+File: images/logo_sorbonne.png Graphic file (type png)
+<use images/logo_sorbonne.png>
+Package pdftex.def Info: images/logo_sorbonne.png  used on input line 394.
+(pdftex.def)             Requested size: 113.81102pt x 113.80379pt.
+[16
+pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.394 \end{document}
+                     <./images/instructions_lc3.png>] (./rapport.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-<<<<<<< Updated upstream
-(rerunfilecheck)             Checksum: 1FE0DF9E28B3362AD63E9803F0102661;1070.
+(rerunfilecheck)             Checksum: 9070B6BCD3957B5ACD3E09302D82E608;1019.
  ) 
 Here is how much of TeX's memory you used:
- 13724 strings out of 474662
- 220187 string characters out of 5751109
- 632636 words of memory out of 5000000
- 36571 multiletter control sequences out of 15000+600000
+ 14086 strings out of 474662
+ 224177 string characters out of 5751109
+ 635356 words of memory out of 5000000
+ 36920 multiletter control sequences out of 15000+600000
  570167 words of font info for 57 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,7n,79p,320b,456s stack positions out of 10000i,1000n,20000p,200000b,200000s
-=======
-(rerunfilecheck)             Checksum: 1A209B1B082B989AC0D257374609460A;1019.
- ) 
-Here is how much of TeX's memory you used:
- 14000 strings out of 474662
- 222542 string characters out of 5751109
- 634730 words of memory out of 5000000
- 36839 multiletter control sequences out of 15000+600000
- 570167 words of font info for 57 fonts, out of 8000000 for 9000
- 319 hyphenation exceptions out of 8191
- 75i,7n,79p,269b,985s stack positions out of 10000i,1000n,20000p,200000b,200000s
->>>>>>> Stashed changes
+ 75i,11n,79p,771b,985s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{cite.sentieys\\penalty\040\\@M\040\040:hal-00716772
 } has been referenced but does not exist, replaced by a fixed one
@@ -594,19 +736,10 @@ ary/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></us
 r/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
 /usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 >
-<<<<<<< Updated upstream
-Output written on rapport.pdf (13 pages, 2257591 bytes).
+Output written on rapport.pdf (16 pages, 2424518 bytes).
 PDF statistics:
- 497 PDF objects out of 1000 (max. 8388607)
- 164 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 77 words of extra memory for PDF output out of 10000 (max. 10000000)
-=======
-Output written on rapport.pdf (15 pages, 2331892 bytes).
-PDF statistics:
- 538 PDF objects out of 1000 (max. 8388607)
- 180 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 82 words of extra memory for PDF output out of 10000 (max. 10000000)
->>>>>>> Stashed changes
+ 550 PDF objects out of 1000 (max. 8388607)
+ 183 compressed objects within 2 object streams
+ 45 named destinations out of 1000 (max. 500000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 

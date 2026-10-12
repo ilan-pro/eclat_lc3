@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-versions = ["Imperatif", "Fonctionnel", "Hybride", "OCaml", "C"]
-cycles = [16.01, 13, 4, 0.04, 89]
+versions = ["Imperatif", "Fonctionnel", "Hybride", "OCaml", "VM-OCaml"]
+cycles = [16.01, 22.49, 13.60, 0.04, 0.04]
 
 plt.bar(versions, cycles)
 

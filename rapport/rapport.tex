@@ -7,10 +7,23 @@
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{float}
 
 \newcommand{\latex}{\LaTeX}
 
 % -----------page 1-----------
+\AddToShipoutPictureFG{%
+    \put(15,750){%
+        \includegraphics[width=4cm]{images/paris.png}%
+    }%
+}
+\AddToShipoutPictureFG{%
+    \put(500,710){%
+        \includegraphics[width=4cm]{images/logo_sorbonne.png}%
+    }%
+}
 \title{Programmation FPGA avec Eclat : comparaison de style et analyses des performances}
 \author {Dahmane Ilan \\ 
 APR/LIP6 et IRILL   
@@ -81,21 +94,12 @@ Dans quelle mesure les styles de programmation fonctionnel et impératif propos�
 permettent-ils de décrire efficacement des algorithmes réalistes tout en générant des 
 architectures matérielles performantes ?
 
-<<<<<<< Updated upstream
-Pour répondre à cette problématique, ce stage consiste à comparer les approches fonctionnelle et 
-impérative au travers de l'implémentations d'un processeur LC-3\footnote{Le LC-3 est un processeur pédagogique conçu par 
-Yale N.Patt et Sanjay J.Patel. Introduit dans leur ouvrage 
-Introduction to Computing Systems afin d'enseigner les principes fondamentaux de l'architecture des ordinateurs.}, 
-étudié à l'université de Paris-Cité durant le cours 
-de Circuits et Architecture enseigné par le professeur Adrien Guatto. Le processeur LC-3 constitue un excellent candidat 
-=======
 Pour répondre à cette problématique, ce stage s'appuie notamment sur l'implémentation d'un processeur pédagogique LC-3\footnote{Le LC-3 est un processeur pédagogique conçu par 
 Yale N.Patt et Sanjay J.Patel. Introduit dans leur ouvrage 
 Introduction to Computing Systems afin d'enseigner les principes fondamentaux de l'architecture des ordinateurs.}, 
 étudié à l'Université Paris Cité dans le cadre du cours de Circuits et Architecture, enseigné par le professeur Adrien Guatto. 
 Cette application sert de support à la comparaison des styles fonctionnel et impératif dans Eclat.
 Le processeur LC-3 constitue un excellent candidat 
->>>>>>> Stashed changes
 pour cette évaluation grâce à son compromis entre simplicité et représentativité. 
 Son architecture volontairement réduite permet une compréhension complète de son fonctionnement, 
 tout en mettant en œuvre de nombreux mécanismes caractéristiques des processeurs modernes. 
@@ -131,17 +135,11 @@ Les FPGA sont composés de bloc logique reprogrammable permettant cette forte mo
     \label{fig:fpga_schema}
 \end{figure}
 
-<<<<<<< Updated upstream
-Dans le coeur d'une puce FPGA se trouvent les blocs logiques reprogrammables (voir Figure~\ref{fig:logic_elem}), qui constituent l'un des principaux intérêts de ces cartes. Elles sont composé d'une ou plusieurs 
-LUT\footnote{Look-Up Tables : une petite mémoire permettant de réaliser n'importe quelle fonction logique de quelques entrées.} ainsi qu'un registre qui permet de sauvegarder les 
-états entre chaque cycle d'horloge, sans cela, le circuit serait purement combinatoire. 
-=======
 Dans le coeur d'une puce FPGA se trouvent les blocs logiques reprogrammables (voir Figure~\ref{fig:logic_elem}), qui constituent l'un des principaux intérêts de ces cartes. 
 Dans l'architecture du FPGA utilisé durant ce stage, les blocs logiques sont constitués notamment de 
 LUT permettant d'implémenter des fonctions logiques, ainsi que de registres permettant de mémoriser des états 
 entre les cycles d'horloge.\footnote{Look-Up Tables : une petite mémoire permettant de réaliser n'importe quelle fonction logique de quelques entrées.} 
 Sans cela, le circuit serait purement combinatoire. 
->>>>>>> Stashed changes
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/logic_elem.png}
@@ -149,16 +147,6 @@ Sans cela, le circuit serait purement combinatoire.
     \label{fig:logic_elem}
 \end{figure}
 
-<<<<<<< Updated upstream
-Plusieurs notions seront utile pour comprendre l'analyse des benchmarks. Nous commencons avec l'horloge et ses notions associés. Un cycle permet de faire passer l'éléctricité dans 
-tout le circuit de la puce, accompagné de cela, il y a aussi les front d'horloge qui permettent de mettre à jour toutes les entrées/sorties (registres) du circuit après un cycle. 
-
-Toutes puces éléctronique possède une fréquence. Celle de la carte DE-10 lite est de 50MHz, cela signifie que la carte peut exécuter 50 millions de cycles par secondes et donc chaque
-cycle dure 20ns (1/fréquence). Le circuit va donc se mettre à jour 50 millions de fois par seconde.
-
-Un programme peut être aussi mesuré par son rapport entre la fréquence sur la carte sur laquelle il tourne et le nombre de cycle dont il à besoin pour finir. Prenons un programme
-A qui prend 5000 cycles avec une fréquence de 50MHz, le programme mettra donc 500 chronosecondes à s'exécuter (500/fréquence).
-=======
 Plusieurs notions sont essentielles pour analyser les performances et les benchmarks d'un processeur. Commençons par l'horloge et ses concepts clés.
 L'horloge agit comme le métronome du circuit : elle rythme le fonctionnement global et indique à quel moment le système a le droit d'actualiser son état. 
 Chaque cycle d'horloge définit ainsi la fenêtre de temps allouée au circuit pour effectuer ses calculs.
@@ -169,10 +157,6 @@ C'est ce front déclencheur qui marque l'instant exact où les registres du circ
 Toutes puces éléctronique possède une fréquence. La carte DE10-Lite dispose notamment d'une source d'horloge de 50 MHz. 
 Les registres cadencés par cette horloge peuvent capturer une nouvelle valeur à chaque front actif. 
 Avec une horloge de 50 MHz, cela correspond à un front toutes les 20ns(1/fréquence), soit au maximum 50 millions de captures par seconde.
-
-Un programme peut être aussi mesuré par son rapport entre la fréquence sur la carte sur laquelle il tourne et le nombre de cycle dont il à besoin pour finir. Prenons un programme
-A qui prend 5000 cycles avec une fréquence de circuit de 100MHz, le programme mettra donc 50 microsecondes à s'exécuter (5000/fréquence).
->>>>>>> Stashed changes
 
 Cependant, l'exploitation de ces architectures nécessite traditionnellement l'utilisation de langages de description matérielle (HDL), tels que le VHDL ou le Verilog. 
 Contrairement aux langages de programmation classiques, ces langages ne décrivent pas une succession d'instructions exécutées par un processeur, 
@@ -185,8 +169,7 @@ tout en conservant un contrôle suffisant sur l'architecture générée..
 Un des exemples les plus connus est HLS (High-level Synthesis)\cite{these_hls} afin de se concentrer sur l'aspect algorithmique et n'ont pas sur l'architecture du circuit. 
 Nous pouvons notamment écrire dans un sous ensemble de C/C++ (pointeur et allocation dynamique parfois exclus) afin que l'outil de synthèse de haut niveau 
 parse votre programme et le synthétise en HDL. 
-Mais cette approche à une limite. Le contrôle de l'architecture par le concepteur du programme est grandement limité et est délégué à l'outil de synthèse (le parallélisme
-est inférer etc... creuser un peu plus). 
+Mais cette approche à une limite. Le contrôle de l'architecture par le concepteur du programme est grandement limité et est délégué à l'outil de synthèse.
 
 C'est dans cette perspective que s'inscrit Eclat. Ce langage propose un paradigme de programmation plus proche des langages logiciels traditionnels (OCaml-like) 
 tout en conservant la possibilité de générer une architecture matérielle efficace. Le compilateur Eclat permet ainsi de traduire 
@@ -194,14 +177,10 @@ les programmes écrits dans ce langage en une description matérielle VHDL synth
 
 % -----------page 5-----------
 \newpage
-\section{Éxperimentations}
+\section{Expérimentations}
 \subsection{Processeur LC-3}
 Pour répondre à notre question, nous allons reprendre un ancien projet de mon premier semestre de master. Ce projet portait sur la réalisation d'un 
-<<<<<<< Updated upstream
-processeur à but éducatif nommé LC-3. C'est un processeur très rudimentaire, comprenant d'environ 15 instructions de base. Ces dernières se décomposent 
-=======
 processeur à but éducatif nommé LC-3. C'est un processeur relativement simple, comprenant environ 15 instructions de base. Ces dernières se décomposent 
->>>>>>> Stashed changes
 en trois familles : les instructions arithmétiques et logiques, les instructions de chargement et rangement et les instructions de 
 branchement (appelées aussi instructions de saut ou encore instructions de contrôle).
 
@@ -216,28 +195,17 @@ commencent par LD) permettant de charger un registre avec une valeur et des inst
 noms commencent par ST) permettant de ranger en mémoire le contenu d’un registre. Ces instructions
 se différencient par leurs modes d’adressage qui peut être immédiat, direct, indirect ou relatif. Les
 instructions de chargement sont LD, LDI, LDR, LEA et les instructions de rangement sont ST, STI et
-<<<<<<< Updated upstream
-STR
-=======
 STR.
->>>>>>> Stashed changes
 
 Les instructions de branchement comprennent les deux instructions de saut BR et JMP, les deux
 instructions d’appel de sous-routine JSR et JSRR, une instruction TRAP d’appel système (pas implementé), une
 instruction RET de retour de sous-routine et une instruction RTI de retour d’interruption (pas implementé).
 
-<<<<<<< Updated upstream
-De plus, le micro-processeur LC-3 dispose de 8 registres généraux 16 bits appelés R0...R7 et comme tous les micro-processeurs, le LC-3 
-dispose d’un compteur de programme PC et d’un registre d’instruction IR qui sont tous les deux des registres 16 bits.
-
-Les indicateurs N, Z et P sont des registres 1 bit. Ils sont positionnés dès qu’une nouvelle valeur est mise dans un des registres généraux
-=======
 De plus, le micro-processeur LC-3 dispose de 8 registres généraux 16 bits appelés R0...R7 et comme la plupart des micro-processeurs, le LC-3 
 dispose d’un compteur de programme PC et d’un registre d’instruction IR qui sont tous les deux des registres 16 bits.
 
 Le LC-3 dispose de trois indicateurs de condition N, Z et P, regroupés dans un registre d'état de trois bits.
 Ils sont positionnés dès qu’une nouvelle valeur est mise dans un des registres généraux
->>>>>>> Stashed changes
 R0...R7. Ceci a lieu lors de l’exécution d’une instruction logique (NOT et AND), arithmétique (ADD)
 ou d’une instruction de chargement (LD, LDI, LDR et LEA). Ils indiquent respectivement si cette
 nouvelle valeur est négative (n), nulle (z) et positive (p). Ces indicateurs sont utilisés par l’instruction
@@ -247,27 +215,6 @@ La mémoire du LC-3 est organisée par mots de 16 bits. L’adressage du LC-3 es
 La mémoire du LC-3 est donc formée de $2^{16}$ mots de 16 bits, c’est-à-dire 128 KiB avec des adresses
 de \texttt{0x0000} à \texttt{0XFFFF} (voir Figure~\ref{fig:memory_lc3}).
 
-<<<<<<< Updated upstream
-\subsection{Première implémentation de LC3 en Eclat}
-Pour la première implémentation en Eclat du processeur, j'ai choisi de privilégier une approche impérative, 
-plus proche des langages de programmation classiques et plus pédagogique pour prendre en main Eclat. 
-Les registres ainsi que la mémoire ont été représentés par des tableaux, qui constituent la principale structure de données mutable du langage. 
-Les modifications sont effectuées en place, c'est-à-dire par réécriture directe des cases mémoire concernées, 
-sans recopier l'ensemble de la structure. Le tableau représentant la mémoire contient des valeurs du type somme value, 
-capable de représenter les différents éléments susceptibles d'être stockés en mémoire, tels qu'une instruction, une adresse, 
-un caractère ou une constante. Cette première implémentation est visible en annexe (le sera bientôt...). 
-Plusieurs problèmes se sont posés durant l'implémentations de ce premier processeur. 
-
-\subsection{Résultats des benchmarks}
-J'ai commencé par allumer un paquet de leds en fonctions des boutons poussoirs. un boutons allume un paquet de 5 leds. 
-afin de comprendre la chaîne de compilation d'un langage de description matériel jusqu'à la production du .sof qui décrit le circuit et permet de flash sur la carte
-le circuit synthétiser par eclat. Pour cette première expérimentation, le nombre d'éléments logique est de 1 (sur les 49760 disponibles)
-
-- Parler du nombre de bloc logique utilisé pour les deux synthèses
-- Parler du temps en cycle 
-- Parler de la facilité d'écriture 
-- Insérer des benchs avec un programme équivalent mais synthétisé avec la vm OCaml en Eclat
-=======
 \subsection{Implémentation du LC3 en Eclat}
 
 Pour la première implémentation du processeur en Eclat, j'ai choisi de privilégier une approche impérative, plus proche des langages de programmation 
@@ -305,6 +252,7 @@ faible sont conservés afin d'effectuer la troncature.
 Cette modification permet ainsi d'obtenir le comportement attendu lors
 du redimensionnement d'entiers signés.
 
+\newpage
 \subsection{Résultats des benchmarks}
 J'ai commencé par réaliser un premier circuit simple permettant d'allumer
 des groupes de LED en fonction de l'état des boutons-poussoirs. Chaque
@@ -350,7 +298,7 @@ que la version fonctionnelle pure.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/performance_cycles.png}
-    \caption{Performances des trois implémentations en fonction du nombre de cycles}
+    \caption{Comparaison des performances des implémentations en fonction du nombre de cycles}
     \label{fig:time_cycle}
 \end{figure}
 
@@ -385,7 +333,7 @@ exploitables.
 
 Enfin, j'ai comparé les performances de ces différentes implémentations
 avec celles de programmes équivalents exécutés dans des langages
-généralistes, notamment OCaml et C, afin d'obtenir un ordre de grandeur
+généralistes, notamment OCaml et la machine virtuelle OCaml implementé en Eclat, afin d'obtenir un ordre de grandeur
 des différences de vitesse. Pour ces langages, la comparaison ne peut
 plus être effectuée directement en nombre de cycles matériels. J'ai donc
 utilisé le temps d'exécution en espace utilisateur, mesuré avec le
@@ -396,27 +344,27 @@ identiques à ceux d'un circuit matériel.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{images/performance_time.png}
-    \caption{Performances des trois implémentations en fonction du nombre de cycles}
+    \caption{Comparaison des temps d'exécution des implémentations en Eclat, OCaml et sur la VM-OCaml}
     \label{fig:time_perf}
 \end{figure}
->>>>>>> Stashed changes
 
 
 % -----------page 6-----------
 \newpage
 \section{Conclusion}
-\paragraph{} Nous pouvons voir que les deux approches ont leur qualités et leur défauts, d’un côté nous avons de la performance temporelle pour le style fonctionnel 
-qui permet de réduire les couts d’accès du à l’abscence d’accès concurrent (qui coute 1 cycle par accès) 
-mais d’un autre côté nous avons une explosion du nombre de blocs logiques programmables utilisé en raison 
-des nombreuses copies de bus de fils etc… De l’autre nous avons l’exacte opposé, 
-en terme de complexité pire mais qui en terme de taille de circuit et de blocs logiques programmables est bien supérieur et 
-permet de faire des programme bien plus gros. Une seconde explication passe par 
-la logique d’implémentation des structure de données des deux styles. 
-Les tableaux sont dans la BRAM (je crois car il y a aussi la SDRAM mais c'est une mémoire externe et c'est pour les grosses donneés non ?) 
-de la carte ce qui ne limite pas sa taille 
-tandis que les vecteurs sont des suites de blocs logiques programmables ce qui limite sa taille à 128kb (voir photo ou plutot donner une équivalent en terme de 
-nombre d'entiers 32 bits, plus clair)
-hypothétique en attendant de finir les benchmarks et donc la conclusion.....
+Les expérimentations réalisées au cours de ce stage ont permis d'étudier l'utilisation d'Eclat pour la programmation de circuits FPGA, notamment à travers l'implémentation d'un processeur LC-3 selon plusieurs styles de programmation.
+
+La comparaison des approches fonctionnelle, impérative et hybride montre que le choix du style de programmation peut avoir une influence importante sur le comportement du circuit généré. Dans le cas étudié, l'implémentation fonctionnelle nécessite environ 500 cycles pour résoudre le problème des tours de Hanoï, contre environ 5,225 pour l'implémentation impérative et environ 1,000 pour l'implémentation hybride. L'approche fonctionnelle nécessite donc nettement moins de cycles pour ce benchmark, tandis que l'approche hybride se situe entre les deux.
+
+Ces résultats mettent cependant en évidence un compromis entre les performances temporelles et les ressources matérielles nécessaires à la réalisation du circuit. L'approche fonctionnelle permet ici de réduire le nombre de cycles nécessaires à l'exécution, mais la représentation des données par des structures immuables peut entraîner la création de nombreuses versions d'une même structure. Cette représentation peut alors se traduire par une utilisation plus importante des ressources logiques du FPGA. À l'inverse, l'approche impérative permet de modifier les structures de données en place, ce qui peut limiter certaines duplications matérielles, au prix d'un nombre de cycles plus important dans le cas étudié.
+
+La représentation des structures de données constitue donc un élément important dans le comportement du circuit généré. Les différences observées entre les tableaux utilisés dans l'approche impérative et les vecteurs utilisés dans l'approche fonctionnelle montrent que le choix de la structure de données peut également avoir un impact sur les ressources nécessaires à la réalisation du circuit.
+
+L'approche hybride apparaît quant à elle comme une solution intermédiaire intéressante. Dans notre cas, elle permet d'obtenir environ 1,000 cycles, soit un résultat meilleur que l'approche impérative tout en limitant certaines des contraintes liées à l'utilisation systématique de structures fonctionnelles.
+
+Ces résultats montrent ainsi qu'il n'existe pas nécessairement un style de programmation universellement meilleur. Le choix entre une approche fonctionnelle, impérative ou hybride doit dépendre de l'application considérée, de la taille et de la nature des données manipulées ainsi que des contraintes matérielles.
+
+Enfin, les résultats obtenus restent limités au processeur LC-3 et aux benchmarks réalisés au cours du stage. Une étude plus complète de la fréquence maximale atteignable et de l'utilisation des différentes ressources du FPGA permettrait de mieux caractériser les compromis entre les différentes approches. Des expérimentations sur d'autres applications permettraient également de déterminer si les tendances observées se généralisent à d'autres circuits.
 
 
 
