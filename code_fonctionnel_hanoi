@@ -1,0 +1,95 @@
+
+let initial_memory : value vect<200> =
+    let empty : value vect<200> = vect_make<<200>>(Instr(NOP())) in
+    let m : value vect<200> = vect_update(empty,  0, Instr(AND_IMM(0, 0, 0))) in
+    let m : value vect<200> = vect_update(m,      1, Instr(AND_IMM(1, 1, 0))) in
+    let m : value vect<200> = vect_update(m,      2, Instr(AND_IMM(2, 2, 0))) in
+    let m : value vect<200> = vect_update(m,      3, Instr(AND_IMM(3, 3, 0))) in
+    let m : value vect<200> = vect_update(m,      4, Instr(AND_IMM(4, 4, 0))) in
+    let m : value vect<200> = vect_update(m,      5, Instr(AND_IMM(5, 5, 0))) in
+    let m : value vect<200> = vect_update(m,      6, Instr(AND_IMM(6, 6, 0))) in
+    let m : value vect<200> = vect_update(m,      7, Instr(AND_IMM(7, 7, 0))) in
+
+    (*---------------HANOI-------------*)
+
+    let m : value vect<200> = vect_update(m,     10, Instr(LEA(6, 150))) in
+
+    let m : value vect<200> = vect_update(m,     11, Instr(AND_IMM(0, 0, 0))) in
+    let m : value vect<200> = vect_update(m,     12, Instr(ADD_IMM(0, 0, 3))) in
+    let m : value vect<200> = vect_update(m,     13, Instr(ADD_IMM(6, 6, -3))) in
+    let m : value vect<200> = vect_update(m,     14, Instr(STR(0, 6, 0))) in        (*arg0 <- 3*)
+    let m : value vect<200> = vect_update(m,     15, Instr(STR(0, 6, 2))) in        (*arg2 <- 3*)
+    let m : value vect<200> = vect_update(m,     16, Instr(ADD_IMM(0, 0, -2))) in
+    let m : value vect<200> = vect_update(m,     17, Instr(STR(0, 6, 1))) in        (*arg1 <- 1*)
+    let m : value vect<200> = vect_update(m,     18, Instr(JSR(19))) in             (*hanoi(3, 1, 3)*)
+    let m : value vect<200> = vect_update(m,     19, Instr(ADD_IMM(6, 6, 3))) in    (*pop arg0, arg1, arg2*)
+
+    (* adresse morte : fin du programme *)
+    let m : value vect<200> = vect_update(m,     21, Instr(BR(1, 1, 1, 200))) in
+
+    (*Fonction mvt(src, dst)*)
+
+    let m : value vect<200> = vect_update(m,     22, Instr(ADD_IMM(6, 6, -3))) in
+    let m : value vect<200> = vect_update(m,     23, Instr(STR(0, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     24, Instr(STR(1, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     25, Instr(STR(7, 6, 2))) in        (*prologue*)
+
+    let m : value vect<200> = vect_update(m,     26, Instr(LDR(0, 6, 3))) in
+    let m : value vect<200> = vect_update(m,     27, Instr(PRINT_REG(0))) in        (*print R0*)
+    (*let m : value vect<200> = vect_update(m,   28, Instr(PRINT_STR(" --> "))) in  (*print_string "-->"*)*)
+    let m : value vect<200> = vect_update(m,     29, Instr(LDR(0, 6, 4))) in
+    let m : value vect<200> = vect_update(m,     30, Instr(PRINT_REG(0))) in        (*print R0*)
+    let m : value vect<200> = vect_update(m,     31, Instr(PRINT_LINE())) in
+
+    let m : value vect<200> = vect_update(m,     32, Instr(LDR(7, 6, 2))) in
+    let m : value vect<200> = vect_update(m,     33, Instr(LDR(1, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     34, Instr(LDR(0, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     35, Instr(ADD_IMM(6, 6, 3))) in
+    let m : value vect<200> = vect_update(m,     36, Instr(RET())) in
+
+    (*Fonction hanoi(nb_disques, src, dst)*)
+
+    let m : value vect<200> = vect_update(m,     37, Instr(ADD_IMM(6, 6, -5))) in
+    let m : value vect<200> = vect_update(m,     38, Instr(STR(7, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     39, Instr(STR(0, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     40, Instr(STR(1, 6, 2))) in
+    let m : value vect<200> = vect_update(m,     41, Instr(STR(2, 6, 3))) in
+    let m : value vect<200> = vect_update(m,     42, Instr(STR(3, 6, 4))) in
+
+    let m : value vect<200> = vect_update(m,     43, Instr(LDR(0, 6, 5))) in
+    let m : value vect<200> = vect_update(m,     44, Instr(AND(0, 0, 0))) in
+    let m : value vect<200> = vect_update(m,     45, Instr(BR(1, 1, 0, 20))) in     (*On s'arrête : nb_disques <= 0*)
+
+    let m : value vect<200> = vect_update(m,     46, Instr(ADD_IMM(0, 0, -1))) in   (*R0 <- nb_disques - 1*)
+
+    let m : value vect<200> = vect_update(m,     47, Instr(LDR(1, 6, 6))) in        (*R1 <- src*)
+    let m : value vect<200> = vect_update(m,     48, Instr(LDR(2, 6, 7))) in        (*R2 <- dst*)
+    let m : value vect<200> = vect_update(m,     49, Instr(ADD(3, 1, 2))) in
+    let m : value vect<200> = vect_update(m,     50, Instr(NOT(3, 3))) in
+    let m : value vect<200> = vect_update(m,     51, Instr(ADD_IMM(3, 3, 7))) in    (*itm = R3 <- 6 - src - dst*)
+
+    let m : value vect<200> = vect_update(m,     52, Instr(ADD_IMM(6, 6, -3))) in
+    let m : value vect<200> = vect_update(m,     53, Instr(STR(0, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     54, Instr(STR(1, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     55, Instr(STR(3, 6, 2))) in
+    let m : value vect<200> = vect_update(m,     56, Instr(JSR(-19))) in             (*hanoi(nb_disques - 1, src, itm)*)
+
+    let m : value vect<200> = vect_update(m,     57, Instr(STR(1, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     58, Instr(STR(2, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     59, Instr(JSR(-37))) in            (*mvt(src, dst)*)
+
+    let m : value vect<200> = vect_update(m,     60, Instr(STR(0, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     61, Instr(STR(3, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     62, Instr(STR(2, 6, 2))) in
+    let m : value vect<200> = vect_update(m,     63, Instr(JSR(-26))) in            (*hanoi(nb_disques - 1, itm, tgt)*)
+    let m : value vect<200> = vect_update(m,     64, Instr(ADD_IMM(6, 6, 3))) in
+
+    let m : value vect<200> = vect_update(m,     65, Instr(LDR(3, 6, 4))) in
+    let m : value vect<200> = vect_update(m,     66, Instr(LDR(2, 6, 3))) in        (*prologue - hanoi0*)
+    let m : value vect<200> = vect_update(m,     67, Instr(LDR(1, 6, 2))) in
+    let m : value vect<200> = vect_update(m,     68, Instr(LDR(0, 6, 1))) in
+    let m : value vect<200> = vect_update(m,     69, Instr(LDR(7, 6, 0))) in
+    let m : value vect<200> = vect_update(m,     70, Instr(ADD_IMM(6, 6, 5))) in
+    let m : value vect<200> = vect_update(m,     71, Instr(RET())) in
+    m
+;;

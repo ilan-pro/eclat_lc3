@@ -1,0 +1,5 @@
+set(memory, 10, Instr(ADD_IMM(0, 0, 10)))
+
+set(memory, 12, Instr(PRINT_REG(0)));
+set(memory, 11, Instr(PRINT_STRING("-->")));
+set(memory, 13, Instr(PRINT_LINE()))
